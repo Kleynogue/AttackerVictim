@@ -22,6 +22,8 @@ public abstract class Command<T>
 
     public abstract T getReturnParam();
 
-    public abstract void closeHandlerSession();
+    public void closeHandlerSession(){
+        getHandler().closeSession();
+    };
 
 }

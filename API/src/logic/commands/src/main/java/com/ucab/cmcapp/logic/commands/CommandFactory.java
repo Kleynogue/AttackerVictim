@@ -1,6 +1,10 @@
 package com.ucab.cmcapp.logic.commands;
 
+import com.ucab.cmcapp.common.entities.Persona;
 import com.ucab.cmcapp.common.entities.User;
+import com.ucab.cmcapp.logic.commands.persona.atomic.AddPersonaCommand;
+import com.ucab.cmcapp.logic.commands.persona.atomic.GetPersonaByFullNameCommand;
+import com.ucab.cmcapp.logic.commands.persona.atomic.GetPersonaByIdCommand;
 import com.ucab.cmcapp.logic.commands.user.atomic.AddUserCommand;
 import com.ucab.cmcapp.logic.commands.user.atomic.GetUserByIdCommand;
 import com.ucab.cmcapp.logic.commands.user.composite.CreateUserCommand;
@@ -45,4 +49,14 @@ public class CommandFactory
     {
         return new CreateUserCommand(user);
     }
+
+    public static AddPersonaCommand createAddPersonaCommand(Persona persona) { return new AddPersonaCommand(persona);}
+
+    public static AddPersonaCommand createAddPersonaCommand(Persona persona, DBHandler handler) { return new AddPersonaCommand(persona, handler);}
+
+    public static GetPersonaByFullNameCommand createGetPersonaByFullNameCommand(Persona persona) { return new GetPersonaByFullNameCommand(persona);}
+
+    public static GetPersonaByFullNameCommand createGetPersonaByFullNameCommand(Persona persona, DBHandler handler) { return new GetPersonaByFullNameCommand(persona, handler);}
+
+    public static GetPersonaByIdCommand createGetPersonaByIdCommand(long id) {return new GetPersonaByIdCommand(id);}
 }
