@@ -18,7 +18,6 @@ public class DaoFactory
     public static QuerellaDao createQuerellaDao( DBHandler handler) { return new QuerellaDao(handler);}
 
     public static TelefonoDao createTelefonoDao( DBHandler handler) { return new TelefonoDao(handler);}
-
     public static ZonaSeguridadDao createZonaSeguridadDao ( DBHandler handler ) { return new ZonaSeguridadDao(handler);}
 
     public static ConexionDao createConexionDao ( DBHandler handler ) { return new ConexionDao(handler);}
@@ -30,5 +29,4 @@ public class DaoFactory
     public static HistoricoPuntoDao createHistoricoPuntoDao ( DBHandler handler ) { return new HistoricoPuntoDao(handler);}
 
     public static ZonaPuntoDao createZonaPuntoDao ( DBHandler handler ) { return new ZonaPuntoDao(handler);}
-
 }

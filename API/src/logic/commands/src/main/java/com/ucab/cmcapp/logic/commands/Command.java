@@ -24,6 +24,6 @@ public abstract class Command<T>
 
     public void closeHandlerSession(){
         getHandler().closeSession();
-    };
+    }
 
 }
