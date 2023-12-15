@@ -1,0 +1,17 @@
+.inputField_input-label{
+    font-size: 18px; 
+    color: rgb(66, 66, 66); 
+    font-family: Arial, sans-serif;
+    padding: 10px;
+}
+
+.inputField_input{
+    width: 100%;
+    font-size: 20px; 
+    color: rgb(66, 66, 66); 
+    border-color: rgb(110, 110, 110);
+    background-color: rgb(255, 255, 255);
+    font-family: Arial, sans-serif;
+    margin-bottom: 20px;
+    margin-top: 5px; 
+}

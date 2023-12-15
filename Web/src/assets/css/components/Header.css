@@ -1,0 +1,17 @@
+.header {
+    background-color: rgb(66, 66, 66);
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+
+  }
+  
+  .header-title {
+    color: white;
+    font-size: 24px;
+    margin-right: 30px;
+  }

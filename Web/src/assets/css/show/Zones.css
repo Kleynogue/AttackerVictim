@@ -1,0 +1,64 @@
+.zone_contenedor{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 25px;
+    height: 50vh;
+    width: 100%;
+    justify-items: center;
+}
+
+.zone_contenedor-titulo{
+    width: 80%;
+    margin-top: 150px;
+}
+
+.zone_contenedor-tabla{
+    width: 75%;
+}
+
+.zone_tabla {
+    width: 100%;
+    border-collapse: collapse;
+    border: 3px solid rgb(44, 44, 44);
+    font-size: 18px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+  
+.zone_tabla th {
+    background-color: rgb(66, 66, 66);
+    color: rgb(255, 255, 255);
+    padding: 15px;
+}
+  
+.zone_tabla td {
+    color: rgb(66, 66, 66);
+    padding: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.zone_tabla tr:nth-child(odd) td {
+    background-color: rgb(255, 255, 255);
+}
+  
+.zone_tabla tr:nth-child(even) td {
+    background-color: rgb(240, 240, 240);
+}
+
+.zone_tabla tr:hover td{
+    background-color: rgb(44, 44, 44);
+    color: rgb(255, 255, 255);
+}
+
+.zone_boton-agregar button{
+  width: 150px;
+}
+
+.zone_boton-cancelar button{
+    margin-bottom: 150px;
+    width: 150px;
+}
+
+.zone_footer{
+    width: 100%;  
+}
