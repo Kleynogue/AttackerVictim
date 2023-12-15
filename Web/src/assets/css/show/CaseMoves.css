@@ -1,0 +1,100 @@
+.caseMoves_contenedor{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 25px;
+    height: 50vh;
+    width: 100%;
+    justify-items: center;
+}
+
+.caseMoves_titulo{
+    display: flex;
+    width: 80%;
+    margin-top: 150px;
+}
+
+.caseMoves_titulo-principal{
+    font-weight: bold;
+
+}
+
+.caseMoves_titulo-secundario{
+    
+    color: rgb(88, 88, 88);
+}
+
+.caseMoves_titulo-secundario:hover{
+  cursor: default;
+    color: rgb(0, 0, 0);
+}
+
+
+.caseMoves_contenedor-usuario{ 
+    padding: 10px;
+    
+    background-color: rgb(255, 255, 255);
+    border: 3px solid rgb(44, 44, 44);
+}
+
+.caseMoves_usuario{
+    width: 50vw;
+    font-size: 20px; 
+    color: rgb(66, 66, 66); 
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.caseMoves_contenedor-datos {
+    width: 85vw;
+    height: 70vh;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 25px;
+    justify-content: center;
+    padding-bottom: 200px;
+}
+  
+.caseMoves_contenedor-tabla {
+    
+    text-align: center;
+    overflow: auto;
+    
+}
+
+
+
+.caseMoves_tabla {
+    width: 100%;
+    border-collapse: collapse;
+    border: 3px solid rgb(44, 44, 44);
+    font-size: 18px;
+}
+
+.caseMoves_tabla th {
+    background-color: rgb(66, 66, 66);
+    color: rgb(255, 255, 255);
+    padding: 15px;
+}
+  
+.caseMoves_tabla td {
+    color: rgb(66, 66, 66);
+    padding: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.caseMoves_tabla tr:nth-child(odd) td {
+    background-color: rgb(255, 255, 255);
+}
+  
+.caseMoves_tabla tr:nth-child(even) td {
+    background-color: rgb(240, 240, 240);
+}
+
+.caseMoves_tabla tr:hover td{
+    background-color: rgb(44, 44, 44);
+    color: rgb(255, 255, 255);
+}
+
+.caseMoves_footer{
+    width: 100%;  
+}

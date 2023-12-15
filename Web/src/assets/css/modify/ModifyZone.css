@@ -1,0 +1,133 @@
+.modifyZone_contenedor{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 25px;
+    height: 50vh;
+    width: 100%;
+    justify-items: center;
+}
+
+.modifyZone_titulo{
+    width: 80%;
+    margin-top: 150px;
+}
+
+
+.modifyZone_id{
+    text-align: center;
+    font-size: 25px;
+    color: rgb(66, 66, 66); 
+    font-weight: bold;
+}
+
+.modifyZone_form{
+    padding: 50px;
+    background-color: rgb(255, 255, 255);
+    border: 3px solid rgb(44, 44, 44);
+   
+}
+
+.modifyZone_contenedor-boton{
+    display: flex;
+    justify-content: center;
+}
+
+.modifyZone_boton {
+    width: 40%;
+    padding: 5px;
+    margin-top: 25px;
+    background-color: rgb(255, 255, 255);
+    border: 2px solid rgb(44, 44, 44);
+    font-size: 15px;
+    color: rgb(66, 66, 66); 
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+  
+.modifyZone_boton:hover {
+    background-color: rgb(66, 66, 66);
+    color: rgb(255, 255, 255);
+}
+
+
+
+
+
+
+.modifyZone_form-coordenada{ 
+    padding: 50px;
+    background-color: rgb(255, 255, 255);
+    border: 3px solid rgb(44, 44, 44);
+}
+
+.modifyZone_coordenada{
+    width: 50vw;
+    font-size: 20px; 
+    color: rgb(66, 66, 66); 
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.modifyZone_contenedor-boton-coordenada {
+    display: flex;
+    justify-content: center;
+}
+
+
+
+
+
+
+.modifyZone_contenedor-datos {
+    width: 85vw;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 25px;
+    justify-content: center;
+    padding-bottom: 200px;
+}
+  
+.modifyZone_contenedor-tabla {
+    grid-column: 1/2; 
+    text-align: center;
+}
+
+.modifyZone_contenedor-mapa {
+    grid-column: 2/4;
+}
+
+.modifyZone_tabla {
+    width: 100%;
+    border-collapse: collapse;
+    border: 3px solid rgb(44, 44, 44);
+    font-size: 18px;
+}
+
+.modifyZone_tabla th {
+    background-color: rgb(66, 66, 66);
+    color: rgb(255, 255, 255);
+    padding: 15px;
+}
+  
+.modifyZone_tabla td {
+    color: rgb(66, 66, 66);
+    padding: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.modifyZone_tabla tr:nth-child(odd) td {
+    background-color: rgb(255, 255, 255);
+}
+  
+.modifyZone_tabla tr:nth-child(even) td {
+    background-color: rgb(240, 240, 240);
+}
+
+.modifyZone_tabla tr:hover td{
+    background-color: rgb(44, 44, 44);
+    color: rgb(255, 255, 255);
+}
+
+.modifyZone_footer{
+    width: 100%;  
+}

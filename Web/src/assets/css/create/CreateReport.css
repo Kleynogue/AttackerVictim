@@ -1,0 +1,79 @@
+.createReport_contenedor{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 25px;
+    height: 50vh;
+    width: 100%;
+    justify-items: center;
+}
+
+.createReport_titulo{
+    width: 80%;
+    margin-top: 150px;
+}
+
+.createReport_contenedor-form{
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+
+.createReport_form{
+    padding: 50px;
+    background-color: rgb(255, 255, 255);
+    border: 3px solid rgb(44, 44, 44);
+}
+
+.createReport_contenedor-boton{
+    display: flex;
+    justify-content: center;
+}
+   
+.createReport_boton {
+    width: 40%;
+    padding: 5px;
+    margin-top: 25px;
+    background-color: rgb(255, 255, 255);
+    border: 2px solid rgb(44, 44, 44);
+    font-size: 15px;
+    color: rgb(66, 66, 66); 
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+  
+.createReport_boton:hover {
+    background-color: rgb(66, 66, 66);
+    color: rgb(255, 255, 255);
+}
+
+
+
+
+.createReport_form-coordenada{ 
+    padding: 50px;
+    background-color: rgb(255, 255, 255);
+    border: 3px solid rgb(44, 44, 44);
+}
+
+.createReport_coordenada{
+    width: 50vw;
+    font-size: 20px; 
+    color: rgb(66, 66, 66); 
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+
+.createReport_contenedor-mapa {
+    width: 80vw;
+    grid-column: 1/2;
+    margin-bottom: 200px;
+}
+
+
+
+.createReport_footer{
+    width: 100%;  
+}
+
+

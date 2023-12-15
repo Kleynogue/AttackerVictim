@@ -1,0 +1,64 @@
+.phone_contenedor{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 25px;
+    height: 50vh;
+    width: 100%;
+    justify-items: center;
+}
+
+.phone_contenedor-titulo{
+    width: 80%;
+    margin-top: 150px;
+}
+
+.phone_contenedor-tabla{
+    width: 75%;
+}
+
+.phone_tabla {
+    width: 100%;
+    border-collapse: collapse;
+    border: 3px solid rgb(44, 44, 44);
+    font-size: 18px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+  
+.phone_tabla th {
+    background-color: rgb(66, 66, 66);
+    color: rgb(255, 255, 255);
+    padding: 15px;
+}
+  
+.phone_tabla td {
+    color: rgb(66, 66, 66);
+    padding: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.phone_tabla tr:nth-child(odd) td {
+    background-color: rgb(255, 255, 255);
+}
+  
+.phone_tabla tr:nth-child(even) td {
+    background-color: rgb(240, 240, 240);
+}
+
+.phone_tabla tr:hover td{
+    background-color: rgb(44, 44, 44);
+    color: rgb(255, 255, 255);
+}
+
+.phone_boton-agregar button{
+  width: 150px;
+}
+
+.phone_boton-cancelar button{
+    margin-bottom: 150px;
+    width: 150px;
+}
+
+.phone_footer{
+    width: 100%;  
+}
