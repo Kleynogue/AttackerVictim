@@ -8,11 +8,13 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
-public class UsuarioMapper extends BaseMapper{
+public class UsuarioMapper extends BaseMapper<UsuarioDto, Usuario>{
 
     private static Logger _logger = LoggerFactory.getLogger( UsuarioMapper.class );
+    private PersonaMapper personaMapper = new PersonaMapper();
 
-    public static Usuario mapDtoToEntity(UsuarioDto dto){
+    @Override
+    public Usuario mapDtoToEntity(UsuarioDto dto){
         Usuario entity = EntityFactory.createUsuario();
 
         _logger.debug( "Get in UsuarioMapper.mapDtoToEntity: dto {}", dto );
@@ -22,7 +24,7 @@ public class UsuarioMapper extends BaseMapper{
         entity.setUsuaTipo(dto.getTipo());
 
         if(Objects.nonNull(dto.getPersona())){
-            entity.setUsuaFKPersona(PersonaMapper.mapDtoToEntity(dto.getPersona()));
+            entity.setUsuaFKPersona(personaMapper.mapDtoToEntity(dto.getPersona()));
         }
 
         _logger.debug( "Leaving UsuarioMapper.mapDtoToEntity: entity {}", entity );
@@ -31,7 +33,8 @@ public class UsuarioMapper extends BaseMapper{
 
     }
 
-    public static UsuarioDto mapEntityToDto(Usuario entity){
+    @Override
+    public UsuarioDto mapEntityToDto(Usuario entity){
         UsuarioDto dto = new UsuarioDto();
 
         _logger.debug( "Get in UsuarioMapper.mapEntityToDto: dto {}", dto );

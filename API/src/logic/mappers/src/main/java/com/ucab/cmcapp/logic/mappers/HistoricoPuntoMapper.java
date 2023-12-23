@@ -10,11 +10,14 @@ import org.slf4j.LoggerFactory;
 import java.text.ParseException;
 import java.util.Objects;
 
-public class HistoricoPuntoMapper extends BaseMapper{
+public class HistoricoPuntoMapper extends BaseMapper<HistoricoPuntoDto, HistoricoPunto>{
 
-    private static Logger _logger = LoggerFactory.getLogger( UserMapper.class );
+    private static Logger _logger = LoggerFactory.getLogger( HistoricoPuntoMapper.class );
+    private TelefonoMapper telefonoMapper = new TelefonoMapper();
+    private PuntoGeograficoMapper puntoGeograficoMapper = new PuntoGeograficoMapper();
 
-    public static HistoricoPunto mapDtoToEntity(HistoricoPuntoDto dto) throws ParseException {
+    @Override
+    public HistoricoPunto mapDtoToEntity(HistoricoPuntoDto dto) throws ParseException {
 
         HistoricoPunto entity = EntityFactory.createHistoricoPunto();
 
@@ -24,11 +27,11 @@ public class HistoricoPuntoMapper extends BaseMapper{
         entity.setHistPunFechaInicio(BaseMapper.parseStringToDate(dto.getFechaInicio()));
 
         if(Objects.nonNull(dto.getTelefono())){
-            entity.setHistPunFKTelefono(TelefonoMapper.mapDtoToEntity(dto.getTelefono()));
+            entity.setHistPunFKTelefono(telefonoMapper.mapDtoToEntity(dto.getTelefono()));
         }
 
         if (Objects.nonNull(dto.getPuntoGeografico())){
-            entity.setHistPunFKPuntoGeografico(PuntoGeograficoMapper.mapDtoToEntity(dto.getPuntoGeografico()));
+            entity.setHistPunFKPuntoGeografico(puntoGeograficoMapper.mapDtoToEntity(dto.getPuntoGeografico()));
         }
 
         _logger.debug( "Leaving HistoricoPuntoMapper.mapDtoToEntity: entity {}", entity );
@@ -36,7 +39,8 @@ public class HistoricoPuntoMapper extends BaseMapper{
         return entity;
     }
 
-    public static HistoricoPuntoDto mapEntityToDto(HistoricoPunto entity){
+    @Override
+    public HistoricoPuntoDto mapEntityToDto(HistoricoPunto entity){
         HistoricoPuntoDto dto =  new HistoricoPuntoDto();
 
         _logger.debug( "Get in HistoricoPuntoMapper.mapEntityToDto: entity {}", entity );
@@ -45,11 +49,11 @@ public class HistoricoPuntoMapper extends BaseMapper{
         dto.setFechaInicio(formatDateToString(entity.getHistPunFechaInicio()));
 
         if (Objects.nonNull(entity.getHistPunFKTelefono())){
-            dto.setTelefono(TelefonoMapper.mapEntityToDto(entity.getHistPunFKTelefono()));
+            dto.setTelefono(telefonoMapper.mapEntityToDto(entity.getHistPunFKTelefono()));
         }
 
         if (Objects.nonNull(entity.getHistPunFKPuntoGeografico())){
-            dto.setPuntoGeografico(PuntoGeograficoMapper.mapEntityToDto(entity.getHistPunFKPuntoGeografico()));
+            dto.setPuntoGeografico(puntoGeograficoMapper.mapEntityToDto(entity.getHistPunFKPuntoGeografico()));
         }
 
         _logger.debug( "Leaving HistoricoPuntoMapper.mapEntityToDto: dto {}", dto );

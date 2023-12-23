@@ -9,7 +9,8 @@ import java.util.Date;
 public class Conexion {
 
     @Id
-    @Column(name = "Cone_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Cone_ID", columnDefinition = "SERIAL")
     private long coneID;
 
     @Column(name = "Cone_Fecha")

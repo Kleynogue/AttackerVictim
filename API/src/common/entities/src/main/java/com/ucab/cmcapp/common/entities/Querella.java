@@ -1,16 +1,14 @@
 package com.ucab.cmcapp.common.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "querella")
 public class Querella {
 
     @Id
-    @Column(name = "Quer_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Quer_ID", columnDefinition = "SERIAL")
     private long querID;
 
     @Column(name = "Quer_Distancia_Min")

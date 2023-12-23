@@ -6,11 +6,12 @@ import com.ucab.cmcapp.logic.dtos.QuerellaDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class QuerellaMapper extends BaseMapper{
+public class QuerellaMapper extends BaseMapper<QuerellaDto, Querella>{
 
     private static Logger _logger = LoggerFactory.getLogger( QuerellaMapper.class );
 
-    public static Querella mapDtoToEntity(QuerellaDto dto){
+    @Override
+    public Querella mapDtoToEntity(QuerellaDto dto){
 
         Querella entity = EntityFactory.createQuerella();
 
@@ -26,7 +27,8 @@ public class QuerellaMapper extends BaseMapper{
 
     }
 
-    public static QuerellaDto mapEntityToDto(Querella entity){
+    @Override
+    public QuerellaDto mapEntityToDto(Querella entity){
 
         QuerellaDto dto = new QuerellaDto();
 

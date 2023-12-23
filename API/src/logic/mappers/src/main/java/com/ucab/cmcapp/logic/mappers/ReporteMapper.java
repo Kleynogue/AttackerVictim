@@ -10,11 +10,14 @@ import org.slf4j.LoggerFactory;
 import java.text.ParseException;
 import java.util.Objects;
 
-public class ReporteMapper extends BaseMapper{
+public class ReporteMapper extends BaseMapper<ReporteDto, Reporte>{
 
     private static Logger _logger = LoggerFactory.getLogger( ReporteMapper.class );
+    private TelefonoMapper telefonoMapper = new TelefonoMapper();
+    private PuntoGeograficoMapper puntoGeograficoMapper = new PuntoGeograficoMapper();
 
-    public static Reporte mapDtoToEntity(ReporteDto dto) throws ParseException {
+    @Override
+    public Reporte mapDtoToEntity(ReporteDto dto) throws ParseException {
 
         Reporte entity = EntityFactory.createReporte();
 
@@ -24,11 +27,11 @@ public class ReporteMapper extends BaseMapper{
         entity.setRepoTipo(dto.getType());
 
         if(Objects.nonNull(dto.getTelefono())) {
-            entity.setRepoFKTelefono(TelefonoMapper.mapDtoToEntity(dto.getTelefono()));
+            entity.setRepoFKTelefono(telefonoMapper.mapDtoToEntity(dto.getTelefono()));
         }
 
         if(Objects.nonNull(dto.getPuntoGeografico())){
-            entity.setRepoFKPuntoGeografico(PuntoGeograficoMapper.mapDtoToEntity(dto.getPuntoGeografico()));
+            entity.setRepoFKPuntoGeografico(puntoGeograficoMapper.mapDtoToEntity(dto.getPuntoGeografico()));
         }
 
         _logger.debug( "Leaving ReporteMapper.mapDtoToEntity: entity {}", entity );
@@ -37,7 +40,8 @@ public class ReporteMapper extends BaseMapper{
 
     }
 
-    public static ReporteDto mapEntityToDto(Reporte entity){
+    @Override
+    public ReporteDto mapEntityToDto(Reporte entity){
 
         ReporteDto dto = new ReporteDto();
 
@@ -48,11 +52,11 @@ public class ReporteMapper extends BaseMapper{
         dto.setType(entity.getRepoTipo());
 
         if (Objects.nonNull(entity.getRepoFKTelefono())){
-            dto.setTelefono(TelefonoMapper.mapEntityToDto(entity.getRepoFKTelefono()));
+            dto.setTelefono(telefonoMapper.mapEntityToDto(entity.getRepoFKTelefono()));
         }
 
         if(Objects.nonNull(entity.getRepoFKPuntoGeografico())){
-            dto.setPuntoGeografico(PuntoGeograficoMapper.mapEntityToDto(entity.getRepoFKPuntoGeografico()));
+            dto.setPuntoGeografico(puntoGeograficoMapper.mapEntityToDto(entity.getRepoFKPuntoGeografico()));
         }
 
         _logger.debug( "Leaving ReporteMapper.mapEntityToDto: dto {}", dto );

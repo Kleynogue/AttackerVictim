@@ -9,7 +9,8 @@ import java.util.Date;
 public class Telefono {
 
     @Id
-    @Column(name = "Tele_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Tele_ID", columnDefinition = "SERIAL")
     private long teleID;
 
     @Column(name = "Tele_Bluetooth")
