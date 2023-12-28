@@ -18,6 +18,7 @@ public class PuntoGeograficoMapper extends BaseMapper<PuntoGeograficoDto, PuntoG
 
         _logger.debug( "Get in PuntoGeograficoMapper.mapDtoToEntity: dto {}", dto );
 
+        entity.setPunGeoID(dto.getId());
         entity.setPunGeoLatitud(dto.getLatitude());
         entity.setPunGeoLongitud(dto.getLongitude());
 
@@ -34,6 +35,7 @@ public class PuntoGeograficoMapper extends BaseMapper<PuntoGeograficoDto, PuntoG
 
         _logger.debug( "Get in PuntoGeograficoMapper.mapEntityToDto: entity {}", entity );
 
+        dto.setId(entity.getPunGeoID());
         dto.setLatitude(entity.getPunGeoLatitud());
         dto.setLongitude(entity.getPunGeoLongitud());
 

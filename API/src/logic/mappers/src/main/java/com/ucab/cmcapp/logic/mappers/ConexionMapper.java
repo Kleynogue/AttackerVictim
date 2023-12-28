@@ -23,6 +23,8 @@ public class ConexionMapper extends BaseMapper<ConexionDto, Conexion>{
 
         _logger.debug("Get in ConexionMapper.mapDtoToEntity: dto {}", dto);
 
+        entity.setConeID(dto.getId());
+
         entity.setConeFecha(BaseMapper.parseStringToDate(dto.getDate()));
 
         if (Objects.nonNull(dto.getTelefono())) {
@@ -40,7 +42,10 @@ public class ConexionMapper extends BaseMapper<ConexionDto, Conexion>{
 
         ConexionDto dto = new ConexionDto();
 
+
         _logger.debug( "Get in ConexionMapper.mapEntityToDto: entity {}", entity );
+
+        dto.setId(entity.getConeID());
 
         dto.setDate(BaseMapper.formatDateToString(entity.getConeFecha()));
 

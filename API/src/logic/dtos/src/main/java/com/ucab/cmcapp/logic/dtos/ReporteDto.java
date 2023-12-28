@@ -46,4 +46,15 @@ public class ReporteDto extends BaseDto{
     public void setPuntoGeografico(PuntoGeograficoDto puntoGeografico) {
         this.puntoGeografico = puntoGeografico;
     }
+
+    @Override
+    public String toString() {
+        return "ReporteDto{" +
+                "date='" + date + '\'' +
+                ", type='" + type + '\'' +
+                ", telefono=" + telefono +
+                ", puntoGeografico=" + puntoGeografico +
+                ", _id=" + _id +
+                '}';
+    }
 }

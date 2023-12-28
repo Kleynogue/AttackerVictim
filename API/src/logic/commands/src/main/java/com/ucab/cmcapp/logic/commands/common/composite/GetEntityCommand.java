@@ -18,14 +18,14 @@ public abstract class GetEntityCommand<T> extends Command<T>{
     public GetEntityCommand( T entity )
     {
         //region Instrumentation DEBUG
-        _logger.debug( String.format( "Get in GetUserCommand.ctor: parameter {%s}",
+        _logger.debug( String.format( "Get in GetEntityCommand.ctor: parameter {%s}",
                 entity.toString() ) );
-        id = getId();
         this.entity = entity;
+        id = getId();
         setHandler(new DBHandler());
 
         //region Instrumentation DEBUG
-        _logger.debug( String.format( "Leaving GetUserCommand.ctor: attribute {%s}",
+        _logger.debug( String.format( "Leaving GetEntityCommand.ctor: attribute {%s}",
                 entity.toString() ) );
         //endregion
     }
@@ -34,9 +34,12 @@ public abstract class GetEntityCommand<T> extends Command<T>{
     public void execute() throws IOException {
         try
         {
+            getHandler().beginTransaction();
             GetEntityByIdCommand<T> getEntityByIdCommand = getGetCommand(id);
             getEntityByIdCommand.execute();
             entity = getEntityByIdCommand.getReturnParam();
+            getHandler().finishTransaction();
+            getHandler().closeSession();
         }
         catch (Exception e)
         {

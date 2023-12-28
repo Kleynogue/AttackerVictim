@@ -55,4 +55,16 @@ public class MovimientoDto extends BaseDto{
     public void setTelefono(TelefonoDto telefono) {
         this.telefono = telefono;
     }
+
+    @Override
+    public String toString() {
+        return "MovimientoDto{" +
+                "x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                ", date='" + date + '\'' +
+                ", telefono=" + telefono +
+                ", _id=" + _id +
+                '}';
+    }
 }

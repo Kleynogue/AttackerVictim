@@ -36,6 +36,11 @@
             <artifactId>dtos</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.ucab.cmcapp.backend.logic</groupId>
+            <artifactId>command</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
 </project>

@@ -28,4 +28,13 @@ public class ConexionDto extends BaseDto{
     public void setTelefono(TelefonoDto telefono) {
         this.telefono = telefono;
     }
+
+    @Override
+    public String toString() {
+        return "ConexionDto{" +
+                "date='" + date + '\'' +
+                ", telefono=" + telefono +
+                ", _id=" + _id +
+                '}';
+    }
 }

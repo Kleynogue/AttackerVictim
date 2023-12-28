@@ -21,6 +21,7 @@ public class MovimientoMapper extends BaseMapper<MovimientoDto, Movimiento>{
 
         _logger.debug( "Get in MovimientoMapper.mapDtoToEntity: dto {}", dto );
 
+        entity.setMoviID(dto.getId());
         entity.setMoviX(dto.getX());
         entity.setMoviY(dto.getY());
         entity.setMoviZ(dto.getZ());
@@ -41,6 +42,7 @@ public class MovimientoMapper extends BaseMapper<MovimientoDto, Movimiento>{
 
         _logger.debug( "Get in MovimientoMapper.mapEntityToDto: entity {}", entity );
 
+        dto.setId(entity.getMoviID());
         dto.setX(entity.getMoviX());
         dto.setY(entity.getMoviY());
         dto.setZ(entity.getMoviZ());
