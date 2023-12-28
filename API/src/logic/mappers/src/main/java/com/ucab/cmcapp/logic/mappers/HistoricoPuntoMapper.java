@@ -23,6 +23,8 @@ public class HistoricoPuntoMapper extends BaseMapper<HistoricoPuntoDto, Historic
 
         _logger.debug( "Get in HistoricoPuntoMapper.mapDtoToEntity: dto {}", dto );
 
+        entity.setHistPunID(dto.getId());
+
         entity.setHistPunFechaFin(BaseMapper.parseStringToDate(dto.getFechaFin()));
         entity.setHistPunFechaInicio(BaseMapper.parseStringToDate(dto.getFechaInicio()));
 
@@ -45,6 +47,7 @@ public class HistoricoPuntoMapper extends BaseMapper<HistoricoPuntoDto, Historic
 
         _logger.debug( "Get in HistoricoPuntoMapper.mapEntityToDto: entity {}", entity );
 
+        dto.setId(entity.getHistPunID());
         dto.setFechaFin(formatDateToString(entity.getHistPunFechaFin()));
         dto.setFechaInicio(formatDateToString(entity.getHistPunFechaInicio()));
 

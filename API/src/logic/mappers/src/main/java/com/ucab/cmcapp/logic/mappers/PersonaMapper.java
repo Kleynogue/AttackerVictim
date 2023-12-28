@@ -18,6 +18,7 @@ public class PersonaMapper extends BaseMapper<PersonaDto, Persona>{
         Persona entity = EntityFactory.createPersona();
         _logger.debug( "Get in PersonaMapper.mapDtoToEntity: dto {}", dto );
 
+        entity.setPersID(dto.getId());
         entity.setPersNombre(dto.getName());
         entity.setPersApellido(dto.getLastName());
         entity.setPersDireccion(dto.getAddress());

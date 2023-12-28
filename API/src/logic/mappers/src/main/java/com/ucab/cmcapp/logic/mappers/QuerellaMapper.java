@@ -17,6 +17,7 @@ public class QuerellaMapper extends BaseMapper<QuerellaDto, Querella>{
 
         _logger.debug( "Get in QuerellaMapper.mapDtoToEntity: dto {}", dto );
 
+        entity.setQuerID(dto.getId());
         entity.setQuerDistanciaMin(dto.getDistanciaMin());
         entity.setQuerTiempoControl(dto.getTiempoControl());
         entity.setQuerStatus(dto.getStatus());
@@ -34,6 +35,7 @@ public class QuerellaMapper extends BaseMapper<QuerellaDto, Querella>{
 
         _logger.debug( "Get in QuerellaMapper.mapEntityToDto: entity {}", entity );
 
+        dto.setId(entity.getQuerID());
         dto.setDistanciaMin(entity.getQuerDistanciaMin());
         dto.setTiempoControl(entity.getQuerTiempoControl());
         dto.setStatus(entity.getQuerStatus());

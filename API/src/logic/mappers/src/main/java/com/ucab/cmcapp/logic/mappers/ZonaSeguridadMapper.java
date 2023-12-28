@@ -20,6 +20,7 @@ public class ZonaSeguridadMapper extends BaseMapper<ZonaSeguridadDto, ZonaSeguri
 
         _logger.debug( "Get in ZonaSeguridadMapper.mapDtoToEntity: dto {}", dto );
 
+        entity.setZonSegID(dto.getId());
         entity.setZonSegNombre(dto.getName());
 
         if(Objects.nonNull(dto.getQuerella())){
@@ -38,6 +39,7 @@ public class ZonaSeguridadMapper extends BaseMapper<ZonaSeguridadDto, ZonaSeguri
 
         _logger.debug( "Get in ZonaSeguridadMapper.mapEntityToDto: entity {}", entity );
 
+        dto.setId(entity.getZonSegID());
         dto.setName(entity.getZonSegNombre());
 
         if(Objects.nonNull(entity.getZonSegFKQuerella())){

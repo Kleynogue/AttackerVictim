@@ -22,6 +22,7 @@ public class TelefonoMapper extends BaseMapper<TelefonoDto, Telefono>{
 
         _logger.debug( "Get in TelefonoMapper.mapDtoToEntity: dto {}", dto );
 
+        entity.setTeleID(dto.getId());
         entity.setTeleBluetooth(dto.getBluetooth());
         entity.setTeleFechaFin(BaseMapper.parseStringToDate(dto.getFechaFin()));
         entity.setTeleFechaInicio(BaseMapper.parseStringToDate(dto.getFechaInicio()));
@@ -46,6 +47,7 @@ public class TelefonoMapper extends BaseMapper<TelefonoDto, Telefono>{
 
         _logger.debug( "Get in TelefonoMapper.mapEntityToDto: entity {}", entity );
 
+        dto.setId(entity.getTeleID());
         dto.setBluetooth(entity.getTeleBluetooth());
         dto.setFechaFin(BaseMapper.formatDateToString(entity.getTeleFechaFin()));
         dto.setFechaInicio(BaseMapper.formatDateToString(entity.getTeleFechaInicio()));

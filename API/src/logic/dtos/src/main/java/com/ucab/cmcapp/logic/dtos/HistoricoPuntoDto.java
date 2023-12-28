@@ -46,4 +46,15 @@ public class HistoricoPuntoDto extends BaseDto{
     public void setPuntoGeografico(PuntoGeograficoDto puntoGeografico) {
         this.puntoGeografico = puntoGeografico;
     }
+
+    @Override
+    public String toString() {
+        return "HistoricoPuntoDto{" +
+                "fechaInicio='" + fechaInicio + '\'' +
+                ", fechaFin='" + fechaFin + '\'' +
+                ", telefono=" + telefono +
+                ", puntoGeografico=" + puntoGeografico +
+                ", _id=" + _id +
+                '}';
+    }
 }

@@ -23,6 +23,7 @@ public class ReporteMapper extends BaseMapper<ReporteDto, Reporte>{
 
         _logger.debug( "Get in ReporteMapper.mapDtoToEntity: dto {}", dto );
 
+        entity.setRepoID(dto.getId());
         entity.setRepoFecha(BaseMapper.parseStringToDate(dto.getDate()));
         entity.setRepoTipo(dto.getType());
 
@@ -47,7 +48,7 @@ public class ReporteMapper extends BaseMapper<ReporteDto, Reporte>{
 
         _logger.debug( "Get in ReporteMapper.mapEntityToDto: entity {}", entity );
 
-
+        dto.setId(entity.getRepoID());
         dto.setDate(BaseMapper.formatDateToString(entity.getRepoFecha()));
         dto.setType(entity.getRepoTipo());
 
