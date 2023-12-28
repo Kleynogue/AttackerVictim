@@ -8,20 +8,23 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
-public class ZonaSeguridadMapper extends BaseMapper{
+public class ZonaSeguridadMapper extends BaseMapper<ZonaSeguridadDto, ZonaSeguridad>{
 
     private static Logger _logger = LoggerFactory.getLogger( ZonaSeguridadMapper.class );
+    private QuerellaMapper querellaMapper = new QuerellaMapper();
 
-    public static ZonaSeguridad mapDtoToEntity(ZonaSeguridadDto dto){
+    @Override
+    public ZonaSeguridad mapDtoToEntity(ZonaSeguridadDto dto){
 
         ZonaSeguridad entity = EntityFactory.createZonaSeguridad();
 
         _logger.debug( "Get in ZonaSeguridadMapper.mapDtoToEntity: dto {}", dto );
 
+        entity.setZonSegID(dto.getId());
         entity.setZonSegNombre(dto.getName());
 
         if(Objects.nonNull(dto.getQuerella())){
-            entity.setZonSegFKQuerella(QuerellaMapper.mapDtoToEntity(dto.getQuerella()));
+            entity.setZonSegFKQuerella(querellaMapper.mapDtoToEntity(dto.getQuerella()));
         }
 
         _logger.debug( "Leaving ZonaSeguridadMapper.mapDtoToEntity: entity {}", entity );
@@ -29,16 +32,18 @@ public class ZonaSeguridadMapper extends BaseMapper{
         return entity;
     }
 
-    public static ZonaSeguridadDto mapEntityToDto(ZonaSeguridad entity){
+    @Override
+    public ZonaSeguridadDto mapEntityToDto(ZonaSeguridad entity){
 
         ZonaSeguridadDto dto = new ZonaSeguridadDto();
 
         _logger.debug( "Get in ZonaSeguridadMapper.mapEntityToDto: entity {}", entity );
 
+        dto.setId(entity.getZonSegID());
         dto.setName(entity.getZonSegNombre());
 
         if(Objects.nonNull(entity.getZonSegFKQuerella())){
-            dto.setQuerella(QuerellaMapper.mapEntityToDto(entity.getZonSegFKQuerella()));
+            dto.setQuerella(querellaMapper.mapEntityToDto(entity.getZonSegFKQuerella()));
         }
 
         _logger.debug( "Leaving ZonaSeguridadMapper.mapEntityToDto: dto {}", dto );

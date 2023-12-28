@@ -56,4 +56,16 @@ public class TelefonoDto extends BaseDto{
     public void setQuerella(QuerellaDto querella) {
         this.querella = querella;
     }
+
+    @Override
+    public String toString() {
+        return "TelefonoDto{" +
+                "bluetooth='" + bluetooth + '\'' +
+                ", fechaInicio='" + fechaInicio + '\'' +
+                ", fechaFin='" + fechaFin + '\'' +
+                ", usuario=" + usuario +
+                ", querella=" + querella +
+                ", _id=" + _id +
+                '}';
+    }
 }

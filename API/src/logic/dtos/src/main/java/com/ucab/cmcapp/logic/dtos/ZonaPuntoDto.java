@@ -28,4 +28,13 @@ public class ZonaPuntoDto extends BaseDto{
     public void setPunto(PuntoGeograficoDto punto) {
         this.punto = punto;
     }
+
+    @Override
+    public String toString() {
+        return "ZonaPuntoDto{" +
+                "zona=" + zona +
+                ", punto=" + punto +
+                ", _id=" + _id +
+                '}';
+    }
 }

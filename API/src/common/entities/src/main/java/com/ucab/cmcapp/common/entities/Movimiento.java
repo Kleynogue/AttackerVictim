@@ -9,7 +9,8 @@ import java.util.Date;
 public class Movimiento {
 
     @Id
-    @Column(name = "Movi_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Movi_ID", columnDefinition = "SERIAL")
     private long moviID;
 
     @Column(name = "Movi_X")

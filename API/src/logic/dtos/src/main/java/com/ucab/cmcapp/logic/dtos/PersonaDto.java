@@ -37,4 +37,14 @@ public class PersonaDto extends BaseDto{
     public void setAddress(String address) {
         this.address = address;
     }
+
+    @Override
+    public String toString() {
+        return "PersonaDto{" +
+                "name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", _id=" + _id +
+                '}';
+    }
 }

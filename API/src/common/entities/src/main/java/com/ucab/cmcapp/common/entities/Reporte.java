@@ -9,7 +9,8 @@ import java.util.Date;
 public class Reporte {
 
     @Id
-    @Column(name = "Repo_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Repo_ID", columnDefinition = "SERIAL")
     private long repoID;
 
     @Column(name = "Repo_Fecha")

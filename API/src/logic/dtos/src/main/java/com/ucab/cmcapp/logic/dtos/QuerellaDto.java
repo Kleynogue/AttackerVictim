@@ -37,4 +37,14 @@ public class QuerellaDto extends BaseDto{
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "QuerellaDto{" +
+                "distanciaMin=" + distanciaMin +
+                ", tiempoControl=" + tiempoControl +
+                ", status='" + status + '\'' +
+                ", _id=" + _id +
+                '}';
+    }
 }

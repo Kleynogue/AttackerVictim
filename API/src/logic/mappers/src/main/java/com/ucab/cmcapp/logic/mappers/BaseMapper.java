@@ -1,12 +1,15 @@
 package com.ucab.cmcapp.logic.mappers;
 
+import com.ucab.cmcapp.logic.dtos.BaseDto;
 import com.ucab.cmcapp.properties.Registry;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class BaseMapper
+public abstract class BaseMapper<T, K>
 {
     public static Date parseStringToDate( String date ) throws ParseException
     {
@@ -63,4 +66,17 @@ public class BaseMapper
             return true;
         return string.equals("");
     }
+
+    public List<T> ListEntityToDto(List<K> entities){
+        List<T> dtos = new ArrayList<>();
+        for (K entity: entities){
+            dtos.add(mapEntityToDto(entity));
+        }
+        
+        return dtos;
+    }
+
+    public abstract K mapDtoToEntity(T dto) throws ParseException;
+    public abstract T mapEntityToDto(K entity);
+
 }

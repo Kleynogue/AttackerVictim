@@ -3,7 +3,6 @@ package com.ucab.cmcapp.logic.dtos;
 public class UsuarioDto extends BaseDto{
 
     public String username;
-    public String contrasena;
     public String tipo;
     public PersonaDto persona;
 
@@ -24,14 +23,6 @@ public class UsuarioDto extends BaseDto{
         this.username = username;
     }
 
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-
     public String getTipo() {
         return tipo;
     }
@@ -46,5 +37,15 @@ public class UsuarioDto extends BaseDto{
 
     public void setPersona(PersonaDto persona) {
         this.persona = persona;
+    }
+
+    @Override
+    public String toString() {
+        return "UsuarioDto{" +
+                "username='" + username + '\'' +
+                ", tipo='" + tipo + '\'' +
+                ", persona=" + persona +
+                ", _id=" + _id +
+                '}';
     }
 }

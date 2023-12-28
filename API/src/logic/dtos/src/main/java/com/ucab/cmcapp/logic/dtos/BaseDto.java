@@ -4,7 +4,7 @@ import com.ucab.cmcapp.common.exceptions.BadIdException;
 
 public abstract class BaseDto
 {
-    private long _id;
+    protected long _id;
 
 
     public BaseDto( long id )

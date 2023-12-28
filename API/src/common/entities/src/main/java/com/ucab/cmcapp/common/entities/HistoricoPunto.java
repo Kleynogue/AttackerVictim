@@ -9,7 +9,8 @@ import java.util.Date;
 public class HistoricoPunto {
 
     @Id
-    @Column(name = "Hist_PunID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Hist_PunID", columnDefinition = "SERIAL")
     private long histPunID;
 
     @Column(name = "Hist_Pun_Fecha_Inicio")

@@ -6,17 +6,19 @@ import com.ucab.cmcapp.logic.dtos.PersonaDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PersonaMapper extends BaseMapper{
+public class PersonaMapper extends BaseMapper<PersonaDto, Persona>{
 
     private static Logger _logger = LoggerFactory.getLogger( PersonaMapper.class );
 
 
 
-    public static Persona mapDtoToEntity(PersonaDto dto){
+    @Override
+    public Persona mapDtoToEntity(PersonaDto dto){
 
         Persona entity = EntityFactory.createPersona();
         _logger.debug( "Get in PersonaMapper.mapDtoToEntity: dto {}", dto );
 
+        entity.setPersID(dto.getId());
         entity.setPersNombre(dto.getName());
         entity.setPersApellido(dto.getLastName());
         entity.setPersDireccion(dto.getAddress());
@@ -26,7 +28,8 @@ public class PersonaMapper extends BaseMapper{
         return entity;
     }
 
-    public static PersonaDto mapEntityToDto(Persona entity) {
+    @Override
+    public PersonaDto mapEntityToDto(Persona entity) {
         PersonaDto dto = new PersonaDto();
 
         _logger.debug("Get in PersonaMapper.mapEntityToDto: entity {}", entity);

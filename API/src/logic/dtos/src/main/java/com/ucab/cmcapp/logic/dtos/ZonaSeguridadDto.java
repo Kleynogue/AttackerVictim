@@ -29,4 +29,13 @@ public class ZonaSeguridadDto extends BaseDto{
     public void setQuerella(QuerellaDto querella) {
         this.querella = querella;
     }
+
+    @Override
+    public String toString() {
+        return "ZonaSeguridadDto{" +
+                "name='" + name + '\'' +
+                ", querella=" + querella +
+                ", _id=" + _id +
+                '}';
+    }
 }

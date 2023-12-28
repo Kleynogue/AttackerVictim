@@ -9,21 +9,24 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
-public class ZonaPuntoMapper extends BaseMapper{
+public class ZonaPuntoMapper extends BaseMapper<ZonaPuntoDto, ZonaPunto>{
 
     private static Logger _logger = LoggerFactory.getLogger( ZonaPuntoMapper.class );
+    private ZonaSeguridadMapper zonaSeguridadMapper = new ZonaSeguridadMapper();
+    private PuntoGeograficoMapper puntoGeograficoMapper = new PuntoGeograficoMapper();
 
-    public static ZonaPunto mapDtoToEntity(ZonaPuntoDto dto){
+    @Override
+    public ZonaPunto mapDtoToEntity(ZonaPuntoDto dto){
 
         ZonaPunto entity = EntityFactory.createZonaPunto();
 
         _logger.debug( "Get in ZonaPuntoMapper.mapDtoToEntity: dto {}", dto );
 
         if(Objects.nonNull(dto.getZona())){
-            entity.setZonPunFKZonaSeguridad(ZonaSeguridadMapper.mapDtoToEntity(dto.getZona()));
+            entity.setZonPunFKZonaSeguridad(zonaSeguridadMapper.mapDtoToEntity(dto.getZona()));
         }
         if(Objects.nonNull(dto.getPunto())){
-            entity.setZonPunFKPuntoGeografico(PuntoGeograficoMapper.mapDtoToEntity(dto.getPunto()));
+            entity.setZonPunFKPuntoGeografico(puntoGeograficoMapper.mapDtoToEntity(dto.getPunto()));
         }
 
         _logger.debug( "Leaving ZonaPuntoMapper.mapDtoToEntity: entity {}", entity );
@@ -31,16 +34,17 @@ public class ZonaPuntoMapper extends BaseMapper{
         return entity;
     }
 
-    public static ZonaPuntoDto mapEntityToDto(ZonaPunto entity){
+    @Override
+    public ZonaPuntoDto mapEntityToDto(ZonaPunto entity){
         ZonaPuntoDto dto = new ZonaPuntoDto();
 
         _logger.debug( "Get in ZonaPuntoMapper.mapEntityToDto: entity {}", entity );
 
         if (Objects.nonNull(entity.getZonPunFKZonaSeguridad())){
-            dto.setZona(ZonaSeguridadMapper.mapEntityToDto(entity.getZonPunFKZonaSeguridad()));
+            dto.setZona(zonaSeguridadMapper.mapEntityToDto(entity.getZonPunFKZonaSeguridad()));
         }
         if (Objects.nonNull(entity.getZonPunFKPuntoGeografico())){
-            dto.setPunto(PuntoGeograficoMapper.mapEntityToDto(entity.getZonPunFKPuntoGeografico()));
+            dto.setPunto(puntoGeograficoMapper.mapEntityToDto(entity.getZonPunFKPuntoGeografico()));
         }
 
         _logger.debug( "Leaving ZonaPuntoMapper.mapEntityToDto: dto {}", dto );

@@ -7,7 +7,8 @@ import javax.persistence.*;
 public class ZonaSeguridad {
 
     @Id
-    @Column(name = "Zon_Seg_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Zon_Seg_ID", columnDefinition = "SERIAL")
     private long zonSegID;
 
     @Column(name = "Zon_Seg_Nombre")

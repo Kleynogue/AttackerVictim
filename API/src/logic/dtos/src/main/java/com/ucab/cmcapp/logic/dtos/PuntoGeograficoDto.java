@@ -28,4 +28,13 @@ public class PuntoGeograficoDto extends BaseDto{
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
+    @Override
+    public String toString() {
+        return "PuntoGeograficoDto{" +
+                "latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", _id=" + _id +
+                '}';
+    }
 }

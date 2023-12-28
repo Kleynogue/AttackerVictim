@@ -1,16 +1,14 @@
 package com.ucab.cmcapp.common.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "punto_geografico")
 public class PuntoGeografico {
 
     @Id
-    @Column(name = "Pun_Geo_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Pun_Geo_ID", columnDefinition = "SERIAL")
     private long punGeoID;
 
     @Column(name = "Pun_Geo_Latitud")
