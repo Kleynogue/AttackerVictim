@@ -54,7 +54,7 @@ public class GetZonaSeguridadByNameCommand extends Command<ZonaSeguridad> {
     }
 
     @Override
-    public Object getReturnParam() {
+    public ZonaSeguridad getReturnParam() {
         return zonaSeguridad;
     }
 }

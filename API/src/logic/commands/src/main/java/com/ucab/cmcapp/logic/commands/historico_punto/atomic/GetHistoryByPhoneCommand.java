@@ -58,7 +58,7 @@ public class GetHistoryByPhoneCommand extends Command<HistoricoPunto> {
     }
 
     @Override
-    public Object getReturnParam() {
+    public List<HistoricoPunto> getReturnParam() {
         return result;
     }
 }

@@ -57,7 +57,7 @@ public class GetConnectionsByDateCommand extends Command<Conexion> {
     }
 
     @Override
-    public Object getReturnParam() {
+    public List<Conexion> getReturnParam() {
         return result;
     }
 }

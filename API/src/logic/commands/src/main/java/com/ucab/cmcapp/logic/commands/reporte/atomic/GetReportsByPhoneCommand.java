@@ -56,7 +56,7 @@ public class GetReportsByPhoneCommand extends Command<Reporte> {
     }
 
     @Override
-    public Object getReturnParam() {
+    public List<Reporte> getReturnParam() {
         return result;
     }
 }
