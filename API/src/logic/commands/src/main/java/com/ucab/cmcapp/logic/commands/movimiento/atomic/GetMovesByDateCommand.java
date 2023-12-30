@@ -47,7 +47,7 @@ public class GetMovesByDateCommand extends Command<Movimiento> {
     }
 
     @Override
-    public void execute() throws IOException {
+    public void execute(){
         _logger.debug( "Get in  GetMovesByDateCommand.execute" );
 
         result = dao.getMovesByDate(movimiento.getMoviFecha());
@@ -56,7 +56,7 @@ public class GetMovesByDateCommand extends Command<Movimiento> {
     }
 
     @Override
-    public Object getReturnParam() {
+    public List<Movimiento> getReturnParam() {
         return result;
     }
 }

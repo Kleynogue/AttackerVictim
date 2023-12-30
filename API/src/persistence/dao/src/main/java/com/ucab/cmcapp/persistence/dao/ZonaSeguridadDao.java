@@ -37,7 +37,7 @@ public class ZonaSeguridadDao extends BaseDao<ZonaSeguridad> {
             CriteriaQuery<ZonaSeguridad> query = _builder.createQuery(ZonaSeguridad.class);
             Root<ZonaSeguridad> root = query.from(ZonaSeguridad.class);
             query.select(root);
-            query.where(_builder.equal(root.get("zonSegName"), name));
+            query.where(_builder.equal(root.get("zonSegNombre"), name));
             result = _em.createQuery(query).getSingleResult();
 
         }catch (NoResultException e){

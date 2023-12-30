@@ -10,7 +10,7 @@ public class HistoricoPunto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Hist_PunID", columnDefinition = "SERIAL")
+    @Column(name = "Hist_Pun_ID", columnDefinition = "SERIAL")
     private long histPunID;
 
     @Column(name = "Hist_Pun_Fecha_Inicio")

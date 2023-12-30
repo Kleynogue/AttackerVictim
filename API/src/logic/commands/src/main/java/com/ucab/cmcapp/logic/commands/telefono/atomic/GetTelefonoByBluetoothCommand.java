@@ -54,7 +54,7 @@ public class GetTelefonoByBluetoothCommand extends Command<Telefono> {
     }
 
     @Override
-    public Object getReturnParam() {
+    public Telefono getReturnParam() {
         return telefono;
     }
 }
