@@ -1,12 +1,18 @@
 package com.ucab.cmcapp.implementation.queries;
 
 import com.ucab.cmcapp.common.entities.Conexion;
+import com.ucab.cmcapp.common.entities.Reporte;
+import com.ucab.cmcapp.common.entities.Telefono;
 import com.ucab.cmcapp.implementation.BaseService;
 import com.ucab.cmcapp.logic.commands.CommandFactory;
 import com.ucab.cmcapp.logic.commands.conexion.atomic.GetConnectionsByDateCommand;
+import com.ucab.cmcapp.logic.commands.conexion.atomic.GetConnectionsByPhoneCommand;
+import com.ucab.cmcapp.logic.commands.reporte.atomic.GetReportsByDateCommand;
 import com.ucab.cmcapp.logic.dtos.ConexionDto;
+import com.ucab.cmcapp.logic.dtos.ReporteDto;
 import com.ucab.cmcapp.logic.mappers.BaseMapper;
 import com.ucab.cmcapp.logic.mappers.ConexionMapper;
+import com.ucab.cmcapp.logic.mappers.ReporteMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +29,7 @@ public class ConexionQueryService extends BaseService{
 
     private static Logger _logger = LoggerFactory.getLogger( ConexionQueryService.class );
 
+    @Path("/1")
     @GET
     public List<ConexionDto> getConnectionsByDate(@QueryParam("date") String date){
         List<ConexionDto> response;
@@ -44,6 +51,33 @@ public class ConexionQueryService extends BaseService{
         }
 
         _logger.debug( "Leaving ConexionQueryService.getConnectionsByDate" );
+        return response;
+    }
+
+    @Path("/2")
+    @GET
+    public List<ConexionDto> getConnectionsByPhone(@QueryParam("phone") long phoneID){
+
+        List<ConexionDto> response;
+        Conexion conexion = new Conexion();
+        ConexionMapper mapper = new ConexionMapper();
+        Telefono telefono = new Telefono(phoneID);
+        GetConnectionsByPhoneCommand command;
+        conexion.setConeFKTelefono(telefono);
+
+        _logger.debug( "Get in ConexionQueryService.getConnectionsByPhone" );
+
+        try {
+            command = CommandFactory.createGetConnectionsByPhoneCommand(conexion);
+            command.execute();
+            response = mapper.ListEntityToDto(command.getReturnParam());
+        }catch (Exception e){
+            _logger.error("error {} getting conexiones of {}: {}", e.getMessage(), phoneID, e.getCause());
+            throw new WebApplicationException( Response.status( Response.Status.INTERNAL_SERVER_ERROR ).
+                    entity( e ).build() );
+        }
+
+        _logger.debug( "Leaving ConexionQueryService.getConnectionsByPhone" );
         return response;
     }
 

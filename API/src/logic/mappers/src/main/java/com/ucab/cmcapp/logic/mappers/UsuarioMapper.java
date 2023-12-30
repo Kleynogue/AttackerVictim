@@ -50,6 +50,7 @@ public class UsuarioMapper extends BaseMapper<UsuarioDto, Usuario>{
         dto.setId(entity.getUsuaID());
         dto.setUsername(entity.getUsuaUsername());
         dto.setTipo(entity.getUsuaTipo());
+        dto.setPersona(personaMapper.mapEntityToDto(entity.getUsuaFKPersona()));
 
         _logger.debug( "Leaving UsuarioMapper.mapEntityToDto: entity {}", entity );
 
