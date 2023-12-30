@@ -172,6 +172,8 @@ public class CommandFactory {
 
     public static UpdateTelefonoCommand createUpdateTelefonoCommand(Telefono telefono){return new UpdateTelefonoCommand(telefono);}
 
+    public static GetTelefonosByQuerellaCommand createGetTelefonosByQuerellaCommand(Telefono telefono){return new GetTelefonosByQuerellaCommand(telefono);}
+
     public static AddZonaSeguridadCommand createAddZonaSeguridadCommand(ZonaSeguridad entity, DBHandler handler) {return new AddZonaSeguridadCommand(entity, handler);}
 
     public static GetZonaSeguridadByIdCommand createGetZonaSeguridadByIdCommand(long id) {return new GetZonaSeguridadByIdCommand(id);}
@@ -212,6 +214,8 @@ public class CommandFactory {
 
     public static UpdateConexionCommand createUpdateConexionCommand(Conexion conexion){return new UpdateConexionCommand(conexion);}
 
+    public static GetConnectionsByPhoneCommand createGetConnectionsByPhoneCommand(Conexion conexion){return new GetConnectionsByPhoneCommand(conexion);}
+
     public static AddMovimientoCommand createAddMovimientoCommand(Movimiento entity, DBHandler handler) {return new AddMovimientoCommand(entity, handler);}
 
     public static GetMovimientoByIdCommand createGetMovimientoByIdCommand(long id) {return new GetMovimientoByIdCommand(id);}
@@ -225,6 +229,8 @@ public class CommandFactory {
     public static GetMovimientosCommand createGetMovimientosCommand(DBHandler handler){return new GetMovimientosCommand(handler);}
 
     public static UpdateMovimientoCommand createUpdateMovimientoCommand(Movimiento movimiento){return new UpdateMovimientoCommand(movimiento);}
+
+    public static GetMovesByPhoneCommand createGetMovesByPhoneCommand(Movimiento movimiento){return new GetMovesByPhoneCommand(movimiento);}
 
     public static AddReporteCommand createAddReporteCommand(Reporte entity, DBHandler handler) {return new AddReporteCommand(entity, handler);}
 

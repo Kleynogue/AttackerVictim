@@ -1,11 +1,17 @@
 package com.ucab.cmcapp.implementation.queries;
 
+import com.ucab.cmcapp.common.entities.Conexion;
 import com.ucab.cmcapp.common.entities.Movimiento;
+import com.ucab.cmcapp.common.entities.Telefono;
 import com.ucab.cmcapp.implementation.BaseService;
 import com.ucab.cmcapp.logic.commands.CommandFactory;
+import com.ucab.cmcapp.logic.commands.conexion.atomic.GetConnectionsByPhoneCommand;
 import com.ucab.cmcapp.logic.commands.movimiento.atomic.GetMovesByDateCommand;
+import com.ucab.cmcapp.logic.commands.movimiento.atomic.GetMovesByPhoneCommand;
+import com.ucab.cmcapp.logic.dtos.ConexionDto;
 import com.ucab.cmcapp.logic.dtos.MovimientoDto;
 import com.ucab.cmcapp.logic.mappers.BaseMapper;
+import com.ucab.cmcapp.logic.mappers.ConexionMapper;
 import com.ucab.cmcapp.logic.mappers.MovimientoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +29,7 @@ public class MovimientoQueryService extends BaseService {
 
     private static Logger _logger = LoggerFactory.getLogger( MovimientoQueryService.class );
 
+    @Path("/1")
     @GET
     public List<MovimientoDto> getMovesByDate(@QueryParam("date") String date){
         List<MovimientoDto> response;
@@ -47,6 +54,33 @@ public class MovimientoQueryService extends BaseService {
         _logger.debug( "Leaving MovimientoQueryService.getMovesByDate" );
         return response;
 
+    }
+
+    @Path("/2")
+    @GET
+    public List<MovimientoDto> getMovesByPhone(@QueryParam("phone") long phoneID){
+
+        List<MovimientoDto> response;
+        Movimiento movimiento = new Movimiento();
+        MovimientoMapper mapper = new MovimientoMapper();
+        Telefono telefono = new Telefono(phoneID);
+        GetMovesByPhoneCommand command;
+        movimiento.setMoviFKTelefono(telefono);
+
+        _logger.debug( "Get in MovimientoQueryService.getMovesByPhone" );
+
+        try {
+            command = CommandFactory.createGetMovesByPhoneCommand(movimiento);
+            command.execute();
+            response = mapper.ListEntityToDto(command.getReturnParam());
+        }catch (Exception e){
+            _logger.error("error {} getting movimientos of {}: {}", e.getMessage(), phoneID, e.getCause());
+            throw new WebApplicationException( Response.status( Response.Status.INTERNAL_SERVER_ERROR ).
+                    entity( e ).build() );
+        }
+
+        _logger.debug( "Leaving MovimientoQueryService.getMovesByPhone" );
+        return response;
     }
 
 }

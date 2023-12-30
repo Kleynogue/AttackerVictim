@@ -1,6 +1,7 @@
 package com.ucab.cmcapp.persistence.dao;
 
 import com.ucab.cmcapp.common.EntityFactory;
+import com.ucab.cmcapp.common.entities.Querella;
 import com.ucab.cmcapp.common.entities.Telefono;
 import com.ucab.cmcapp.common.exceptions.CupraException;
 import com.ucab.cmcapp.persistence.DBHandler;
@@ -12,6 +13,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.List;
 
 public class TelefonoDao extends BaseDao<Telefono> {
 
@@ -43,6 +45,24 @@ public class TelefonoDao extends BaseDao<Telefono> {
             _logger.error( String.format( "Error TelefonoDao.getTelefonoByBluetooth: No Result {%s}", e.getMessage() ) );
         }catch (Exception e){
             _logger.error( String.format( "Error TelefonoDao.getTelefonoByBluetooth: {%s}", e.getMessage() ) );
+            throw new CupraException( e.getMessage() );
+        }
+        return result;
+    }
+
+    public List<Telefono> getTelefonosByQuerella(Querella querella){
+        List<Telefono> result = null;
+        _logger.debug( String.format( "Get in TelefonoDao.getTelefonosByQuerella: parameters {%s}", querella ) );
+        try {
+            CriteriaQuery<Telefono> query = _builder.createQuery(Telefono.class);
+            Root<Telefono> root = query.from(Telefono.class);
+            query.select(root);
+            query.where(_builder.equal(root.get("teleFKQuerella"), querella));
+            result = _em.createQuery(query).getResultList();
+        }catch (NoResultException e){
+            _logger.error( String.format( "Error TelefonoDao.getTelefonosByQuerella: No Result {%s}", e.getMessage() ) );
+        }catch (Exception e){
+            _logger.error( String.format( "Error TelefonoDao.getTelefonosByQuerella: {%s}", e.getMessage() ) );
             throw new CupraException( e.getMessage() );
         }
         return result;

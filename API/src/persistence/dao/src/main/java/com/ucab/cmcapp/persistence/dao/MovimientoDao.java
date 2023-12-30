@@ -1,6 +1,7 @@
 package com.ucab.cmcapp.persistence.dao;
 
 import com.ucab.cmcapp.common.entities.Movimiento;
+import com.ucab.cmcapp.common.entities.Telefono;
 import com.ucab.cmcapp.common.exceptions.CupraException;
 import com.ucab.cmcapp.persistence.DBHandler;
 import org.slf4j.Logger;
@@ -32,7 +33,7 @@ public class MovimientoDao extends BaseDao<Movimiento> {
 
     public List<Movimiento> getMovesByDate(Date date){
         List<Movimiento> result = null;
-        _logger.debug( String.format( "Get in PersonaDao.getPersonaByFullName: parameter {%s}", date.toString() ) );
+        _logger.debug( String.format( "Get in MovimientoDao.getMovesByDate: parameter {%s}", date.toString() ) );
         try {
             CriteriaQuery<Movimiento> query = _builder.createQuery(Movimiento.class);
             Root<Movimiento> root = query.from(Movimiento.class);
@@ -45,6 +46,25 @@ public class MovimientoDao extends BaseDao<Movimiento> {
             _logger.error( String.format( "Error MovimientoDao.getMovesByDate: {%s}", e.getMessage() ) );
             throw new CupraException( e.getMessage() );
         }
+        return result;
+    }
+
+    public List<Movimiento> getMovesByPhone(Telefono telefono){
+        List<Movimiento> result = null;
+        _logger.debug( String.format( "Get in MovimientoDao.getMovesByPhone: parameter {%s}", telefono.toString() ) );
+        try {
+            CriteriaQuery<Movimiento> query = _builder.createQuery(Movimiento.class);
+            Root<Movimiento> root = query.from(Movimiento.class);
+            query.select(root);
+            query.where(_builder.equal(root.get("moviFKTelefono"), telefono));
+            result = _em.createQuery(query).getResultList();
+        }catch (NoResultException e){
+            _logger.error( String.format( "Error MovimientoDao.getMovesByDate: No Result {%s}", e.getMessage() ) );
+        }catch (Exception e){
+            _logger.error( String.format( "Error MovimientoDao.getMovesByDate: {%s}", e.getMessage() ) );
+            throw new CupraException( e.getMessage() );
+        }
+
         return result;
     }
 }
