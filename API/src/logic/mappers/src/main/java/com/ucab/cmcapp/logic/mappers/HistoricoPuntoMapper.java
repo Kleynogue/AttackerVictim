@@ -25,8 +25,15 @@ public class HistoricoPuntoMapper extends BaseMapper<HistoricoPuntoDto, Historic
 
         entity.setHistPunID(dto.getId());
 
-        entity.setHistPunFechaFin(BaseMapper.parseStringToDate(dto.getFechaFin()));
-        entity.setHistPunFechaInicio(BaseMapper.parseStringToDate(dto.getFechaInicio()));
+        if (dto.getFechaFin() != null)
+            entity.setHistPunFechaFin(BaseMapper.parseStringToDate(dto.getFechaFin()));
+        else
+            entity.setHistPunFechaFin(null);
+
+        if (dto.getFechaInicio() != null)
+            entity.setHistPunFechaInicio(BaseMapper.parseStringToDate(dto.getFechaInicio()));
+        else
+            entity.setHistPunFechaInicio(null);
 
         if(Objects.nonNull(dto.getTelefono())){
             entity.setHistPunFKTelefono(telefonoMapper.mapDtoToEntity(dto.getTelefono()));
@@ -48,8 +55,16 @@ public class HistoricoPuntoMapper extends BaseMapper<HistoricoPuntoDto, Historic
         _logger.debug( "Get in HistoricoPuntoMapper.mapEntityToDto: entity {}", entity );
 
         dto.setId(entity.getHistPunID());
-        dto.setFechaFin(formatDateToString(entity.getHistPunFechaFin()));
-        dto.setFechaInicio(formatDateToString(entity.getHistPunFechaInicio()));
+
+        if (entity.getHistPunFechaFin() != null)
+            dto.setFechaFin(formatDateToString(entity.getHistPunFechaFin()));
+        else
+            dto.setFechaFin(null);
+
+        if (entity.getHistPunFechaInicio() != null)
+            dto.setFechaInicio(formatDateToString(entity.getHistPunFechaInicio()));
+        else
+            dto.setFechaInicio(null);
 
         if (Objects.nonNull(entity.getHistPunFKTelefono())){
             dto.setTelefono(telefonoMapper.mapEntityToDto(entity.getHistPunFKTelefono()));

@@ -2,6 +2,7 @@ package com.ucab.cmcapp.implementation.queries;
 
 import com.ucab.cmcapp.common.entities.HistoricoPunto;
 import com.ucab.cmcapp.common.entities.Telefono;
+import com.ucab.cmcapp.common.exceptions.NotFoundException;
 import com.ucab.cmcapp.implementation.BaseService;
 import com.ucab.cmcapp.logic.commands.CommandFactory;
 import com.ucab.cmcapp.logic.commands.historico_punto.atomic.GetHistoryByPhoneCommand;
@@ -10,6 +11,7 @@ import com.ucab.cmcapp.logic.mappers.HistoricoPuntoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -23,6 +25,7 @@ public class HistoricoPuntoQueryService extends BaseService{
     private static Logger _logger = LoggerFactory.getLogger( HistoricoPuntoQueryService.class );
 
     @GET
+    @RolesAllowed({"Administrador", "Victima"})
     public List<HistoricoPuntoDto> getHistoryByPhone(@QueryParam("phone") long phoneID){
 
         List<HistoricoPuntoDto> response;
@@ -38,6 +41,10 @@ public class HistoricoPuntoQueryService extends BaseService{
             command = CommandFactory.createGetHistoryByPhoneCommand(historicoPunto);
             command.execute();
             response = mapper.ListEntityToDto(command.getReturnParam());
+        }catch (NotFoundException e){
+            _logger.error("error {} getting historico from telefono {}: {}", e.getMessage(), phoneID, e.getCause());
+            throw new WebApplicationException( Response.status( Response.Status.NOT_FOUND ).
+                    entity( e ).build() );
         }catch (Exception e){
             _logger.error("error {} getting historico from telefono {}: {}", e.getMessage(), phoneID, e.getCause());
             throw new WebApplicationException( Response.status( Response.Status.INTERNAL_SERVER_ERROR ).

@@ -22,9 +22,9 @@ public abstract class BaseDao<T>
 
     static final int MAX_RESULTS_PER_PAGE =
             Integer.parseInt( Registry.getInstance().getProperty( Registry.MAX_RESULTS_PER_PAGE ) );
-    static private DBHandler _dbHandler;
-    private static Logger _logger = LoggerFactory.getLogger( BaseDao.class );
-    private EntityManager _entityManager;
+    static protected DBHandler _dbHandler;
+    protected static Logger _logger = LoggerFactory.getLogger( BaseDao.class );
+    protected EntityManager _entityManager;
 
     public EntityManager getEntityManager()
     {

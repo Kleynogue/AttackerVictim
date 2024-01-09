@@ -3,6 +3,7 @@ package com.ucab.cmcapp.persistence.dao;
 import com.ucab.cmcapp.common.entities.Conexion;
 import com.ucab.cmcapp.common.entities.Telefono;
 import com.ucab.cmcapp.common.exceptions.CupraException;
+import com.ucab.cmcapp.common.exceptions.NotFoundException;
 import com.ucab.cmcapp.persistence.DBHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,7 @@ public class ConexionDao extends BaseDao<Conexion> {
             result = _em.createQuery(query).getResultList();
         } catch (NoResultException e) {
             _logger.error(String.format("Error ConexionDao.getConnectionsByDate: No Result {%s}", e.getMessage()));
+            throw new NotFoundException("Conexiones no encontradas");
         } catch (Exception e) {
             _logger.error(String.format("Error ConexionDao.getConnectionsByDate: {%s}", e.getMessage()));
             throw new CupraException(e.getMessage());
@@ -61,6 +63,7 @@ public class ConexionDao extends BaseDao<Conexion> {
             result = _em.createQuery(query).getResultList();
         }catch (NoResultException e) {
             _logger.error(String.format("Error ReporteDao.getConnectionsByPhone: No Result {%s}", e.getMessage()));
+            throw new NotFoundException("Conexiones no encontradas");
         } catch (Exception e) {
             _logger.error(String.format("Error ReporteDao.getConnectionsByPhone: {%s}", e.getMessage()));
             throw new CupraException(e.getMessage());

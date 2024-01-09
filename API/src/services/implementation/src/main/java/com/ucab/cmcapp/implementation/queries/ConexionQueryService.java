@@ -3,6 +3,7 @@ package com.ucab.cmcapp.implementation.queries;
 import com.ucab.cmcapp.common.entities.Conexion;
 import com.ucab.cmcapp.common.entities.Reporte;
 import com.ucab.cmcapp.common.entities.Telefono;
+import com.ucab.cmcapp.common.exceptions.NotFoundException;
 import com.ucab.cmcapp.implementation.BaseService;
 import com.ucab.cmcapp.logic.commands.CommandFactory;
 import com.ucab.cmcapp.logic.commands.conexion.atomic.GetConnectionsByDateCommand;
@@ -16,6 +17,7 @@ import com.ucab.cmcapp.logic.mappers.ReporteMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -31,6 +33,7 @@ public class ConexionQueryService extends BaseService{
 
     @Path("/1")
     @GET
+    @RolesAllowed({"Administrador"})
     public List<ConexionDto> getConnectionsByDate(@QueryParam("date") String date){
         List<ConexionDto> response;
         Conexion conexion = new Conexion();
@@ -44,6 +47,10 @@ public class ConexionQueryService extends BaseService{
             command = CommandFactory.createGetConnectionsByDateCommand(conexion);
             command.execute();
             response = mapper.ListEntityToDto(command.getReturnParam());
+        }catch (NotFoundException e){
+            _logger.error("error {} getting conexiones {}: {}", e.getMessage(), date, e.getCause());
+            throw new WebApplicationException( Response.status( Response.Status.NOT_FOUND ).
+                    entity( e ).build() );
         }catch (Exception e){
             _logger.error("error {} getting conexiones {}: {}", e.getMessage(), date, e.getCause());
             throw new WebApplicationException( Response.status( Response.Status.INTERNAL_SERVER_ERROR ).
@@ -56,6 +63,7 @@ public class ConexionQueryService extends BaseService{
 
     @Path("/2")
     @GET
+    @RolesAllowed({"Administrador", "Victima"})
     public List<ConexionDto> getConnectionsByPhone(@QueryParam("phone") long phoneID){
 
         List<ConexionDto> response;
@@ -71,6 +79,10 @@ public class ConexionQueryService extends BaseService{
             command = CommandFactory.createGetConnectionsByPhoneCommand(conexion);
             command.execute();
             response = mapper.ListEntityToDto(command.getReturnParam());
+        }catch (NotFoundException e){
+            _logger.error("error {} getting conexiones of {}: {}", e.getMessage(), phoneID, e.getCause());
+            throw new WebApplicationException( Response.status( Response.Status.NOT_FOUND).
+                    entity( e ).build() );
         }catch (Exception e){
             _logger.error("error {} getting conexiones of {}: {}", e.getMessage(), phoneID, e.getCause());
             throw new WebApplicationException( Response.status( Response.Status.INTERNAL_SERVER_ERROR ).

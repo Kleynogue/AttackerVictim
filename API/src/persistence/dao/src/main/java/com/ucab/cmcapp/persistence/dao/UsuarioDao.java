@@ -3,6 +3,8 @@ package com.ucab.cmcapp.persistence.dao;
 import com.ucab.cmcapp.common.EntityFactory;
 import com.ucab.cmcapp.common.entities.Usuario;
 import com.ucab.cmcapp.common.exceptions.CupraException;
+import com.ucab.cmcapp.common.exceptions.FindException;
+import com.ucab.cmcapp.common.exceptions.NotFoundException;
 import com.ucab.cmcapp.persistence.DBHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +44,7 @@ public class UsuarioDao extends BaseDao<Usuario>{
             result = _em.createQuery(query).getSingleResult();
         }catch (NoResultException e){
             _logger.error( String.format( "Error UsuarioDao.getUsuarioByUsername: No Result {%s}", e.getMessage() ) );
+            throw new NotFoundException("Nombre de usuario no existente");
         }catch (Exception e){
             _logger.error( String.format( "Error UsuarioDao.getUsuarioByUsername: {%s}", e.getMessage() ) );
             throw new CupraException( e.getMessage() );
@@ -60,6 +63,7 @@ public class UsuarioDao extends BaseDao<Usuario>{
             result = _em.createQuery(query).getResultList();
         }catch (NoResultException e){
             _logger.error( String.format( "Error UsuarioDao.getUsuariosByType: No Result {%s}", e.getMessage() ) );
+            throw new NotFoundException("Usuarios no encontrados");
         }catch (Exception e){
             _logger.error( String.format( "Error UsuarioDao.getUsuariosByType: {%s}", e.getMessage() ) );
             throw new CupraException( e.getMessage() );

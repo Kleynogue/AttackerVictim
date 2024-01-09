@@ -1,6 +1,8 @@
 package com.ucab.cmcapp.implementation.crud.common;
 
+import com.ucab.cmcapp.common.exceptions.FindException;
 import com.ucab.cmcapp.common.exceptions.JsonValidationException;
+import com.ucab.cmcapp.common.exceptions.NotFoundException;
 import com.ucab.cmcapp.implementation.BaseService;
 import com.ucab.cmcapp.logic.commands.common.atomic.GetEntitiesCommand;
 import com.ucab.cmcapp.logic.commands.common.atomic.UpdateEntityCommand;
@@ -11,6 +13,7 @@ import com.ucab.cmcapp.persistence.DBHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.lang.reflect.Field;
@@ -21,6 +24,7 @@ public abstract class CrudService<T, K> extends BaseService {
     private static Logger _logger = LoggerFactory.getLogger( CrudService.class );
 
     @GET
+    @RolesAllowed({"Administrador"})
     public List<T> getEntities(){
         List<T> response;
         GetEntitiesCommand<K> command = null;
@@ -48,6 +52,7 @@ public abstract class CrudService<T, K> extends BaseService {
 
     @GET
     @Path("/{id}")
+    @RolesAllowed({"Administrador"})
     public T getEntity(@PathParam("id") long id){
 
         K entity;
@@ -63,14 +68,20 @@ public abstract class CrudService<T, K> extends BaseService {
             entity = mapper.mapDtoToEntity( getDto(id) );
             command = getCreateGetEntity(entity);
             command.execute();
+            if (command.getReturnParam() == null)
+                throw new NotFoundException("Entidad no encontrada");
             response = mapper.mapEntityToDto( command.getReturnParam() );
             _logger.info( "Response getEntity: {} ", response );
-        }
-        catch ( Exception e )
+        }catch ( NotFoundException e )
+        {
+            _logger.error("error {} getting entity {}: {}", e.getMessage(), id, e.getCause());
+            throw new WebApplicationException( Response.status( Response.Status.NOT_FOUND ).
+                    entity( e.getMessage() ).build() );
+        }catch ( Exception e )
         {
             _logger.error("error {} getting entity {}: {}", e.getMessage(), id, e.getCause());
             throw new WebApplicationException( Response.status( Response.Status.INTERNAL_SERVER_ERROR ).
-                    entity( e ).build() );
+                    entity( e.getMessage() ).build() );
         }
         finally
         {
@@ -84,8 +95,8 @@ public abstract class CrudService<T, K> extends BaseService {
     }
 
     @POST
-    public T addEntity( T dto )
-    {
+    @RolesAllowed({"Administrador", "Victima", "Agresor"})
+    public T addEntity( T dto ){
         K entity;
         T response;
         CreateEntityCommand<K> command = null;
@@ -101,6 +112,7 @@ public abstract class CrudService<T, K> extends BaseService {
             entity = mapper.mapDtoToEntity( dto );
             command = getCreateCreateEntity(entity);
             command.execute();
+            validateFields(command.getReturnParam());
             response = mapper.mapEntityToDto( command.getReturnParam() );
             _logger.info( "Response addEntity: {} ", response );
         }
@@ -127,12 +139,13 @@ public abstract class CrudService<T, K> extends BaseService {
 
     @POST
     @Path("/update")
+    @RolesAllowed({"Administrador"})
     public T updateEntity(T dto){
         K entity;
         T response;
         UpdateEntityCommand<K> command = null;
         //region Instrumentation DEBUG
-        _logger.debug( "Get in CrudService.addEntity" );
+        _logger.debug( "Get in CrudService.updateEntity" );
         //endregion
 
         try
@@ -175,16 +188,6 @@ public abstract class CrudService<T, K> extends BaseService {
         }
     }
 
-    protected void validateFields(Object obj) throws IllegalAccessException, JsonValidationException {
-        for (Field field : obj.getClass().getDeclaredFields()) {
-            field.setAccessible(true);
-            Object value = field.get(obj);
-
-            if (value == null) {
-                throw new JsonValidationException("Field '" + field.getName() + "' has a null value.");
-            }
-        }
-    }
 
     protected abstract UpdateEntityCommand<K> getCreateUpdateEntity(K entity);
 

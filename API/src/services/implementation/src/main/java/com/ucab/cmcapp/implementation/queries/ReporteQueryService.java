@@ -2,6 +2,7 @@ package com.ucab.cmcapp.implementation.queries;
 
 import com.ucab.cmcapp.common.entities.Reporte;
 import com.ucab.cmcapp.common.entities.Telefono;
+import com.ucab.cmcapp.common.exceptions.NotFoundException;
 import com.ucab.cmcapp.implementation.BaseService;
 import com.ucab.cmcapp.logic.commands.CommandFactory;
 import com.ucab.cmcapp.logic.commands.reporte.atomic.GetReportsByDateCommand;
@@ -12,6 +13,7 @@ import com.ucab.cmcapp.logic.mappers.ReporteMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -27,6 +29,7 @@ public class ReporteQueryService extends BaseService {
 
     @Path("/1")
     @GET
+    @RolesAllowed({"Administrador", "Victima"})
     public List<ReporteDto> getReportsByPhone(@QueryParam("phone") long phoneID){
 
         List<ReporteDto> response;
@@ -43,6 +46,10 @@ public class ReporteQueryService extends BaseService {
             command = CommandFactory.createGetReportsByPhoneCommand(reporte);
             command.execute();
             response = mapper.ListEntityToDto(command.getReturnParam());
+        }catch (NotFoundException e){
+            _logger.error("error {} getting reportes from telefono {}: {}", e.getMessage(), phoneID, e.getCause());
+            throw new WebApplicationException( Response.status( Response.Status.NOT_FOUND ).
+                    entity( e ).build() );
         }catch (Exception e){
             _logger.error("error {} getting reportes from telefono {}: {}", e.getMessage(), phoneID, e.getCause());
             throw new WebApplicationException( Response.status( Response.Status.INTERNAL_SERVER_ERROR ).
@@ -55,6 +62,7 @@ public class ReporteQueryService extends BaseService {
 
     @Path("/2")
     @GET
+    @RolesAllowed({"Administrador"})
     public List<ReporteDto> getReportsByDate(@QueryParam("date") String date){
 
         List<ReporteDto> response;
@@ -70,6 +78,10 @@ public class ReporteQueryService extends BaseService {
             command = CommandFactory.createGetReportsByDateCommand(reporte);
             command.execute();
             response = mapper.ListEntityToDto(command.getReturnParam());
+        }catch (NotFoundException e){
+            _logger.error("error {} getting reportes from {}: {}", e.getMessage(), date, e.getCause());
+            throw new WebApplicationException( Response.status( Response.Status.NOT_FOUND ).
+                    entity( e ).build() );
         }catch (Exception e){
             _logger.error("error {} getting reportes from {}: {}", e.getMessage(), date, e.getCause());
             throw new WebApplicationException( Response.status( Response.Status.INTERNAL_SERVER_ERROR ).

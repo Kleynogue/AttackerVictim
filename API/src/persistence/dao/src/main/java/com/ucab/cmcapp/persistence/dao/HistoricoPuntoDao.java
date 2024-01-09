@@ -3,6 +3,7 @@ package com.ucab.cmcapp.persistence.dao;
 import com.ucab.cmcapp.common.entities.HistoricoPunto;
 import com.ucab.cmcapp.common.entities.Telefono;
 import com.ucab.cmcapp.common.exceptions.CupraException;
+import com.ucab.cmcapp.common.exceptions.NotFoundException;
 import com.ucab.cmcapp.persistence.DBHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,7 @@ public class HistoricoPuntoDao extends BaseDao<HistoricoPunto>{
             result = _em.createQuery(query).getResultList();
         }catch (NoResultException e){
             _logger.error( String.format( "Error HistoricoPuntoDao.getHistoryByPhone: No Result {%s}", e.getMessage() ) );
+            throw new NotFoundException("Historicos no encontrados");
         }catch (Exception e){
             _logger.error( String.format( "Error HistoricoPuntoDao.getHistoryByPhone: {%s}", e.getMessage() ) );
             throw new CupraException( e.getMessage() );

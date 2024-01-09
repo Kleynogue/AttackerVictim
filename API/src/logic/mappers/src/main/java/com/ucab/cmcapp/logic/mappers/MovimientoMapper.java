@@ -25,7 +25,11 @@ public class MovimientoMapper extends BaseMapper<MovimientoDto, Movimiento>{
         entity.setMoviX(dto.getX());
         entity.setMoviY(dto.getY());
         entity.setMoviZ(dto.getZ());
-        entity.setMoviFecha(BaseMapper.parseStringToDate(dto.getDate()));
+
+        if(dto.getDate() != null)
+            entity.setMoviFecha(BaseMapper.parseStringToDate(dto.getDate()));
+        else
+            entity.setMoviFecha(null);
 
         if(Objects.nonNull(dto.getTelefono())) {
             entity.setMoviFKTelefono(telefonoMapper.mapDtoToEntity(dto.getTelefono()));
@@ -46,7 +50,11 @@ public class MovimientoMapper extends BaseMapper<MovimientoDto, Movimiento>{
         dto.setX(entity.getMoviX());
         dto.setY(entity.getMoviY());
         dto.setZ(entity.getMoviZ());
-        dto.setDate(BaseMapper.formatDateToString(entity.getMoviFecha()));
+
+        if(entity.getMoviFecha() != null)
+            dto.setDate(BaseMapper.formatDateToString(entity.getMoviFecha()));
+        else
+            dto.setDate(null);
 
         if (Objects.nonNull(entity.getMoviFKTelefono())){
             dto.setTelefono(telefonoMapper.mapEntityToDto(entity.getMoviFKTelefono()));
