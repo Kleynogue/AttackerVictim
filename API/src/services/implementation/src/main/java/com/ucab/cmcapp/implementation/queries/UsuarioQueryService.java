@@ -1,6 +1,7 @@
 package com.ucab.cmcapp.implementation.queries;
 
 import com.ucab.cmcapp.common.entities.Usuario;
+import com.ucab.cmcapp.common.exceptions.NotFoundException;
 import com.ucab.cmcapp.implementation.BaseService;
 import com.ucab.cmcapp.logic.commands.CommandFactory;
 import com.ucab.cmcapp.logic.commands.usuario.atomic.GetUsuarioByUsernameCommand;
@@ -10,6 +11,7 @@ import com.ucab.cmcapp.logic.mappers.UsuarioMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -24,6 +26,7 @@ public class UsuarioQueryService extends BaseService{
 
     @Path("/1")
     @GET
+    @RolesAllowed({"Administrador", "Victima"})
     public UsuarioDto getUsuarioByUsername(@QueryParam("username") String username){
         UsuarioDto response;
         Usuario usuario = new Usuario();
@@ -37,6 +40,10 @@ public class UsuarioQueryService extends BaseService{
             command = CommandFactory.createGetUsuarioByUsernameCommand(usuario);
             command.execute();
             response = mapper.mapEntityToDto(command.getReturnParam());
+        }catch (NotFoundException e){
+            _logger.error("error {} getting usuario {}: {}", e.getMessage(), username, e.getCause());
+            throw new WebApplicationException( Response.status( Response.Status.NOT_FOUND ).
+                    entity( e ).build() );
         }catch (Exception e){
             _logger.error("error {} getting usuario {}: {}", e.getMessage(), username, e.getCause());
             throw new WebApplicationException( Response.status( Response.Status.INTERNAL_SERVER_ERROR ).
@@ -49,6 +56,7 @@ public class UsuarioQueryService extends BaseService{
 
     @Path("/2")
     @GET
+    @RolesAllowed({"Administrador"})
     public List<UsuarioDto> getUsuariosByType(@QueryParam("type") String type){
         List<UsuarioDto> response;
         GetUsuariosByTypeCommand command;
@@ -60,6 +68,10 @@ public class UsuarioQueryService extends BaseService{
             command = CommandFactory.createGetUsuariosByTypeCommand(type);
             command.execute();
             response = mapper.ListEntityToDto(command.getReturnParam());
+        }catch (NotFoundException e){
+            _logger.error("error {} getting usuarios {}: {}", e.getMessage(), type, e.getCause());
+            throw new WebApplicationException( Response.status( Response.Status.NOT_FOUND ).
+                    entity( e ).build() );
         }catch (Exception e){
             _logger.error("error {} getting usuarios {}: {}", e.getMessage(), type, e.getCause());
             throw new WebApplicationException( Response.status( Response.Status.INTERNAL_SERVER_ERROR ).

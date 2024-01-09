@@ -17,10 +17,10 @@ public class UpdatePuntoGeograficoCommand extends UpdateEntityCommand<PuntoGeogr
 
     @Override
     protected BaseDao<PuntoGeografico> getDao(DBHandler handler) {
-        return new BaseDao<PuntoGeografico>() {
+        return new BaseDao<PuntoGeografico>(handler) {
             @Override
-            public PuntoGeografico insert(PuntoGeografico entity) {
-                return super.insert(entity);
+            public PuntoGeografico update(PuntoGeografico entity) {
+                return super.update(entity);
             }
         };
     }

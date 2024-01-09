@@ -24,7 +24,12 @@ public class ReporteMapper extends BaseMapper<ReporteDto, Reporte>{
         _logger.debug( "Get in ReporteMapper.mapDtoToEntity: dto {}", dto );
 
         entity.setRepoID(dto.getId());
-        entity.setRepoFecha(BaseMapper.parseStringToDate(dto.getDate()));
+
+        if(dto.getDate() != null)
+            entity.setRepoFecha(BaseMapper.parseStringToDate(dto.getDate()));
+        else
+            entity.setRepoFecha(null);
+
         entity.setRepoTipo(dto.getType());
 
         if(Objects.nonNull(dto.getTelefono())) {
@@ -49,7 +54,12 @@ public class ReporteMapper extends BaseMapper<ReporteDto, Reporte>{
         _logger.debug( "Get in ReporteMapper.mapEntityToDto: entity {}", entity );
 
         dto.setId(entity.getRepoID());
-        dto.setDate(BaseMapper.formatDateToString(entity.getRepoFecha()));
+
+        if (entity.getRepoFecha() != null)
+            dto.setDate(BaseMapper.formatDateToString(entity.getRepoFecha()));
+        else
+            dto.setDate(null);
+
         dto.setType(entity.getRepoTipo());
 
         if (Objects.nonNull(entity.getRepoFKTelefono())){

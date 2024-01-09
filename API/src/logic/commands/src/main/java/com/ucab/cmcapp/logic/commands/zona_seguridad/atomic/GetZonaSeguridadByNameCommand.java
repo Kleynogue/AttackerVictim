@@ -9,11 +9,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.List;
 
 public class GetZonaSeguridadByNameCommand extends Command<ZonaSeguridad> {
 
     private static Logger _logger = LoggerFactory.getLogger( GetZonaSeguridadByNameCommand.class );
     private ZonaSeguridad zonaSeguridad;
+    private List<ZonaSeguridad> result = null;
     private ZonaSeguridadDao dao;
 
 
@@ -47,14 +49,12 @@ public class GetZonaSeguridadByNameCommand extends Command<ZonaSeguridad> {
 
         _logger.debug( "Get in  GetZonaSeguridadByNameCommand.execute" );
 
-        zonaSeguridad = dao.getZonaSeguridadByName(zonaSeguridad.getZonSegNombre());
+        result = dao.getZonaSeguridadByName(zonaSeguridad.getZonSegNombre());
 
         _logger.debug( "Leaving GetZonaSeguridadByNameCommand.execute" );
 
     }
 
     @Override
-    public ZonaSeguridad getReturnParam() {
-        return zonaSeguridad;
-    }
+    public List<ZonaSeguridad> getReturnParam() {return result;}
 }

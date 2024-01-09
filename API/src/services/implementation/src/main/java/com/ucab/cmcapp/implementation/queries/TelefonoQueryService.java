@@ -2,6 +2,7 @@ package com.ucab.cmcapp.implementation.queries;
 
 import com.ucab.cmcapp.common.entities.Querella;
 import com.ucab.cmcapp.common.entities.Telefono;
+import com.ucab.cmcapp.common.exceptions.NotFoundException;
 import com.ucab.cmcapp.implementation.BaseService;
 import com.ucab.cmcapp.logic.commands.CommandFactory;
 import com.ucab.cmcapp.logic.commands.telefono.atomic.GetTelefonoByBluetoothCommand;
@@ -11,6 +12,7 @@ import com.ucab.cmcapp.logic.mappers.TelefonoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -25,6 +27,7 @@ public class TelefonoQueryService extends BaseService {
 
     @Path("/1")
     @GET
+    @RolesAllowed({"Administrador", "Victima"})
     public TelefonoDto getTelefonoByBluetooth(@QueryParam("bluetooth") String bluetooth){
 
         TelefonoDto response;
@@ -39,6 +42,10 @@ public class TelefonoQueryService extends BaseService {
             command = CommandFactory.createGetTelefonoByBluetoothCommand(telefono);
             command.execute();
             response = mapper.mapEntityToDto(command.getReturnParam());
+        }catch (NotFoundException e){
+            _logger.error("error {} getting telefono {}: {}", e.getMessage(), bluetooth, e.getCause());
+            throw new WebApplicationException( Response.status( Response.Status.NOT_FOUND ).
+                    entity( e ).build() );
         }catch (Exception e){
             _logger.error("error {} getting telefono {}: {}", e.getMessage(), bluetooth, e.getCause());
             throw new WebApplicationException( Response.status( Response.Status.INTERNAL_SERVER_ERROR ).
@@ -51,6 +58,7 @@ public class TelefonoQueryService extends BaseService {
 
     @Path("/2")
     @GET
+    @RolesAllowed({"Administrador", "Victima"})
     public List<TelefonoDto> getTelefonosByQuerella(@QueryParam("querella") long querellaID){
 
         List<TelefonoDto> response;
@@ -66,6 +74,10 @@ public class TelefonoQueryService extends BaseService {
             command = CommandFactory.createGetTelefonosByQuerellaCommand(telefono);
             command.execute();
             response = mapper.ListEntityToDto(command.getReturnParam());
+        }catch (NotFoundException e){
+            _logger.error("error {} getting telefonos in {}: {}", e.getMessage(), querellaID, e.getCause());
+            throw new WebApplicationException( Response.status( Response.Status.NOT_FOUND ).
+                    entity( e ).build() );
         }catch (Exception e){
             _logger.error("error {} getting telefonos in {}: {}", e.getMessage(), querellaID, e.getCause());
             throw new WebApplicationException( Response.status( Response.Status.INTERNAL_SERVER_ERROR ).

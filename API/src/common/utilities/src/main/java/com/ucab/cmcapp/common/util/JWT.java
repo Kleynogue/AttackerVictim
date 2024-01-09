@@ -3,6 +3,7 @@ package com.ucab.cmcapp.common.util;
 import com.ucab.cmcapp.common.exceptions.JWTCreateException;
 import com.ucab.cmcapp.common.exceptions.JWTSetKeyException;
 import com.ucab.cmcapp.common.exceptions.JWTVerifyException;
+import com.ucab.cmcapp.logic.dtos.UsuarioDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -119,33 +120,86 @@ public class JWT
         //endregion
     }
 
-    public static String verifyToken(String token )
-    {
-        String result = "";
+//    public static String verifyToken(String token )
+//    {
+//        String result = "";
+//
+//        //region Instrumentation DEBUG
+//        _logger.debug( "Entering in JWT.verifyToken: verifyToken {}", token );
+//        //endregion
+//
+//        try
+//        {
+//            Jws<Claims> claims = Jwts.parser()
+//                    .requireIssuer( _issuer )
+//                    .setSigningKey( _secretKey )
+//                    .parseClaimsJws( token );
+//
+//            result = claims.getBody().getSubject();
+//        }
+//        catch ( Exception e )
+//        {
+//            _logger.error( "invalid token");
+//            _logger.error( e.getMessage(), e );
+//            throw new JWTVerifyException(e.getMessage());
+//        }
+//
+//        //region Instrumentation DEBUG
+//        _logger.debug( "Leaving JWT.createToken: result {}", result );
+//        //endregion
+//
+//        return result;
+//    }
+
+    public static String createToken(UsuarioDto usuario){
+        String result;
 
         //region Instrumentation DEBUG
-        _logger.debug( "Entering in JWT.verifyToken: verifyToken {}", token );
+        _logger.debug( "Entering in JWT.createToken: subject {}", usuario.toString() );
         //endregion
 
-        try
-        {
-            Jws<Claims> claims = Jwts.parser()
-                    .requireIssuer( _issuer )
-                    .setSigningKey( _secretKey )
-                    .parseClaimsJws( token );
+        try {
+            Claims claims = Jwts.claims();
+            claims.setIssuer(_issuer);
+            claims.setSubject(usuario.getUsername());
+            claims.setNotBefore(new Date());
+            claims.setIssuedAt(new Date());
+            claims.setId(UUID.randomUUID().toString());
 
-            result = claims.getBody().getSubject();
+            // Información del tipo de usuario.
+            claims.put("type", usuario.getTipo());
+
+            result = Jwts.builder()
+                    .setClaims(claims)
+                    .signWith(_secretKey, SignatureAlgorithm.forName(_algorithm))
+                    .compact();
+
+        }catch (Exception e){
+            throw new JWTCreateException(e.getMessage());
         }
-        catch ( Exception e )
-        {
-            _logger.error( "invalid token");
-            _logger.error( e.getMessage(), e );
+
+        return result;
+    }
+
+    public static UsuarioDto verifyToken(String token){
+        UsuarioDto result = new UsuarioDto();
+        try {
+            Jws<Claims> claims = Jwts.parser()
+                    .requireIssuer(_issuer)
+                    .setSigningKey(_secretKey)
+                    .parseClaimsJws(token);
+
+            String username = claims.getBody().getSubject();
+            // Recuperando el tipo del usuario
+            String type = (String) claims.getBody().get("type");
+
+            result.setUsername(username);
+            result.setTipo(type);
+        }catch (Exception e){
+            _logger.error("Invalid token");
+            _logger.error(e.getMessage(), e);
             throw new JWTVerifyException(e.getMessage());
         }
-
-        //region Instrumentation DEBUG
-        _logger.debug( "Leaving JWT.createToken: result {}", result );
-        //endregion
 
         return result;
     }

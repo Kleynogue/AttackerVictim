@@ -188,6 +188,8 @@ public class CommandFactory {
 
     public static UpdateZonaSeguridadCommand createUpdateZonaSeguridadCommand(ZonaSeguridad zs){return new UpdateZonaSeguridadCommand(zs);}
 
+    public static GetZonasSeguridadByQuerellaCommand createGetZonasSeguridadByQuerellaCommand(ZonaSeguridad zs){return new GetZonasSeguridadByQuerellaCommand(zs);}
+
     public static AddPuntoGeograficoCommand createAddPuntoGeograficoCommand(PuntoGeografico entity, DBHandler handler) {return new AddPuntoGeograficoCommand(entity, handler);}
 
     public static GetPuntoGeograficoByIdCommand createGetPuntoGeograficoByIdCommand(long id) {return new GetPuntoGeograficoByIdCommand(id);}

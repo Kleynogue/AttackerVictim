@@ -40,8 +40,7 @@ public abstract class GetEntityCommand<T> extends Command<T>{
             entity = getEntityByIdCommand.getReturnParam();
             getHandler().finishTransaction();
             getHandler().closeSession();
-        }
-        catch (Exception e)
+        }catch (Exception e)
         {
             getHandler().rollbackTransaction();
             getHandler().closeSession();

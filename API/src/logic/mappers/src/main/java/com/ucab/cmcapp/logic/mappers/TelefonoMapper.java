@@ -24,8 +24,16 @@ public class TelefonoMapper extends BaseMapper<TelefonoDto, Telefono>{
 
         entity.setTeleID(dto.getId());
         entity.setTeleBluetooth(dto.getBluetooth());
-        entity.setTeleFechaFin(BaseMapper.parseStringToDate(dto.getFechaFin()));
-        entity.setTeleFechaInicio(BaseMapper.parseStringToDate(dto.getFechaInicio()));
+
+        if(dto.getFechaInicio() != null)
+            entity.setTeleFechaInicio(BaseMapper.parseStringToDate(dto.getFechaFin()));
+        else
+            entity.setTeleFechaInicio(null);
+
+        if(dto.getFechaFin() != null)
+            entity.setTeleFechaFin(BaseMapper.parseStringToDate(dto.getFechaFin()));
+        else
+            entity.setTeleFechaFin(null);
 
         if(Objects.nonNull(dto.getUsuario())){
             entity.setTeleFKUsuario(usuarioMapper.mapDtoToEntity(dto.getUsuario()));
@@ -49,8 +57,16 @@ public class TelefonoMapper extends BaseMapper<TelefonoDto, Telefono>{
 
         dto.setId(entity.getTeleID());
         dto.setBluetooth(entity.getTeleBluetooth());
-        dto.setFechaFin(BaseMapper.formatDateToString(entity.getTeleFechaFin()));
-        dto.setFechaInicio(BaseMapper.formatDateToString(entity.getTeleFechaInicio()));
+
+        if(entity.getTeleFechaFin() != null)
+            dto.setFechaFin(BaseMapper.formatDateToString(entity.getTeleFechaFin()));
+        else
+            dto.setFechaFin(null);
+
+        if (entity.getTeleFechaInicio() != null)
+            dto.setFechaInicio(BaseMapper.formatDateToString(entity.getTeleFechaInicio()));
+        else
+            dto.setFechaInicio(null);
 
         if (Objects.nonNull(entity.getTeleFKUsuario())){
             dto.setUsuario(usuarioMapper.mapEntityToDto(entity.getTeleFKUsuario()));

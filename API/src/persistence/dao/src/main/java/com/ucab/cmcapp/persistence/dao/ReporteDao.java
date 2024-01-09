@@ -3,6 +3,7 @@ package com.ucab.cmcapp.persistence.dao;
 import com.ucab.cmcapp.common.entities.Reporte;
 import com.ucab.cmcapp.common.entities.Telefono;
 import com.ucab.cmcapp.common.exceptions.CupraException;
+import com.ucab.cmcapp.common.exceptions.NotFoundException;
 import com.ucab.cmcapp.persistence.DBHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,7 @@ public class ReporteDao extends BaseDao<Reporte> {
             result = _em.createQuery(query).getResultList();
         } catch (NoResultException e) {
             _logger.error(String.format("Error ReporteDao.getReportsByPhone: No Result {%s}", e.getMessage()));
+            throw new NotFoundException("Reportes no encontrados");
         } catch (Exception e) {
             _logger.error(String.format("Error ReporteDao.getReportsByPhone: {%s}", e.getMessage()));
             throw new CupraException(e.getMessage());
@@ -60,6 +62,7 @@ public class ReporteDao extends BaseDao<Reporte> {
             result = _em.createQuery(query).getResultList();
         } catch (NoResultException e) {
             _logger.error(String.format("Error ReporteDao.getReportsByDate: No Result {%s}", e.getMessage()));
+            throw new NotFoundException("Reportes no encontrados");
         } catch (Exception e) {
             _logger.error(String.format("Error ReporteDao.getReportsByDate: {%s}", e.getMessage()));
             throw new CupraException(e.getMessage());

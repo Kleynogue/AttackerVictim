@@ -25,7 +25,10 @@ public class ConexionMapper extends BaseMapper<ConexionDto, Conexion>{
 
         entity.setConeID(dto.getId());
 
-        entity.setConeFecha(BaseMapper.parseStringToDate(dto.getDate()));
+        if(dto.getDate() != null)
+            entity.setConeFecha(BaseMapper.parseStringToDate(dto.getDate()));
+        else
+            entity.setConeFecha(null);
 
         if (Objects.nonNull(dto.getTelefono())) {
             entity.setConeFKTelefono(telefonoMapper.mapDtoToEntity(dto.getTelefono()));
@@ -47,7 +50,10 @@ public class ConexionMapper extends BaseMapper<ConexionDto, Conexion>{
 
         dto.setId(entity.getConeID());
 
-        dto.setDate(BaseMapper.formatDateToString(entity.getConeFecha()));
+        if(entity.getConeFecha() != null)
+            dto.setDate(BaseMapper.formatDateToString(entity.getConeFecha()));
+        else
+            dto.setDate(null);
 
         if(Objects.nonNull(entity.getConeFKTelefono())){
             dto.setTelefono(telefonoMapper.mapEntityToDto(entity.getConeFKTelefono()));

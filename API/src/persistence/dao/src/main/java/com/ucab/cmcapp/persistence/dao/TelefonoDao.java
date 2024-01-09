@@ -4,6 +4,7 @@ import com.ucab.cmcapp.common.EntityFactory;
 import com.ucab.cmcapp.common.entities.Querella;
 import com.ucab.cmcapp.common.entities.Telefono;
 import com.ucab.cmcapp.common.exceptions.CupraException;
+import com.ucab.cmcapp.common.exceptions.NotFoundException;
 import com.ucab.cmcapp.persistence.DBHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +44,7 @@ public class TelefonoDao extends BaseDao<Telefono> {
             result = _em.createQuery(query).getSingleResult();
         }catch (NoResultException e){
             _logger.error( String.format( "Error TelefonoDao.getTelefonoByBluetooth: No Result {%s}", e.getMessage() ) );
+            throw new NotFoundException("Telefono no encontrado");
         }catch (Exception e){
             _logger.error( String.format( "Error TelefonoDao.getTelefonoByBluetooth: {%s}", e.getMessage() ) );
             throw new CupraException( e.getMessage() );
@@ -61,6 +63,7 @@ public class TelefonoDao extends BaseDao<Telefono> {
             result = _em.createQuery(query).getResultList();
         }catch (NoResultException e){
             _logger.error( String.format( "Error TelefonoDao.getTelefonosByQuerella: No Result {%s}", e.getMessage() ) );
+            throw new NotFoundException("Telefonos no encontrados");
         }catch (Exception e){
             _logger.error( String.format( "Error TelefonoDao.getTelefonosByQuerella: {%s}", e.getMessage() ) );
             throw new CupraException( e.getMessage() );

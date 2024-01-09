@@ -3,6 +3,7 @@ package com.ucab.cmcapp.persistence.dao;
 import com.ucab.cmcapp.common.EntityFactory;
 import com.ucab.cmcapp.common.entities.Persona;
 import com.ucab.cmcapp.common.exceptions.CupraException;
+import com.ucab.cmcapp.common.exceptions.NotFoundException;
 import com.ucab.cmcapp.persistence.DBHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +47,7 @@ public class PersonaDao extends BaseDao<Persona>{
 
         }catch (NoResultException e){
             _logger.error( String.format( "Error PersonaDao.getPersonaByFullName: No Result {%s}", e.getMessage() ) );
+            throw new NotFoundException("Persona no encontrada");
         }catch (Exception e){
             _logger.error( String.format( "Error PersonaDao.getPersonaByFullName: {%s}", e.getMessage() ) );
             throw new CupraException( e.getMessage() );
