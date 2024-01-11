@@ -5,6 +5,7 @@ import com.ucab.cmcapp.common.exceptions.JsonValidationException;
 import com.ucab.cmcapp.common.util.JWT;
 import com.ucab.cmcapp.implementation.control.AuthenticationService;
 import com.ucab.cmcapp.implementation.crud.*;
+import com.ucab.cmcapp.implementation.middlewares.Cors;
 import com.ucab.cmcapp.implementation.middlewares.RequestLogger;
 import com.ucab.cmcapp.implementation.middlewares.VerifyToken;
 import com.ucab.cmcapp.implementation.queries.*;
@@ -66,6 +67,7 @@ public class BaseService extends Application
         //Middlewares de la API
         resources.add(RequestLogger.class);
         resources.add(VerifyToken.class);
+        resources.add(Cors.class);
 
         return resources;
     }
