@@ -17,6 +17,9 @@ public class PuntoGeografico {
     @Column(name = "Pun_Geo_Longitud")
     private double punGeoLongitud;
 
+    @Column(name = "Pun_Geo_Status")
+    private String punGeoStatus;
+
 
     public PuntoGeografico(){
 
@@ -50,12 +53,21 @@ public class PuntoGeografico {
         this.punGeoLongitud = punGeoLongitud;
     }
 
+    public String getPunGeoStatus() {
+        return punGeoStatus;
+    }
+
+    public void setPunGeoStatus(String punGeoStatus) {
+        this.punGeoStatus = punGeoStatus;
+    }
+
     @Override
     public String toString() {
         return "PuntoGeografico{" +
                 "punGeoID=" + punGeoID +
                 ", punGeoLatitud=" + punGeoLatitud +
                 ", punGeoLongitud=" + punGeoLongitud +
+                ", punGeoStatus='" + punGeoStatus + '\'' +
                 '}';
     }
 }
