@@ -2,7 +2,7 @@ import RNFS from 'react-native-fs';
 const MotionStatusModel = () => {
 
     const handleMotionAlertSQL = async (path) => {
-        console.log('Este metodo debe enviar la alerta cuando se encuentre inmovil'); 
+      //  console.log('Este metodo debe enviar la alerta cuando se encuentre inmovil'); 
 
         try {
             console.log("Se cargan estos datos----------------------------------------------");

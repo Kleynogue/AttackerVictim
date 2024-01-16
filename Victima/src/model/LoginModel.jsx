@@ -1,21 +1,35 @@
+import auth from '@react-native-firebase/auth';
+import messaging from '@react-native-firebase/messaging';
+
 const LoginModel = (navigation) => {
-
-    const handleValidarUser = (user, password) => {
-
-        console.log('Este metodo debe validar el usuario y contrasena'); 
-        navigation.navigate('Main');
-        /*
-        // Ejemplo de validación
-        if (user === 'admin' && password === '1234') {
-            // Redirigir a otra ventana
+    const handleValidarUser = async (email, password) => {
+        try {
+            const userCredential = await auth().signInWithEmailAndPassword(email, password);
+            const user = userCredential.user;
+            console.log('este es el uid', user.uid); // Imprimir el UID del usuario
+           
             navigation.navigate('Main');
-        } else {
-            // Mostrar alerta en caso de credenciales incorrectas
-            alert('Credenciales incorrectas');
-        }*/
+
+            
+
+            const fcmToken = await messaging().getToken();
+      if (fcmToken) {
+        console.log('este es el fcmToken',fcmToken);
+      }
+
+    
+
+        } catch (error) {
+            console.log('Error al validar el usuario y contraseña:', error);
+        }
     };
     return {
         handleValidarUser,
     };
 };
 export default LoginModel;
+
+
+
+
+

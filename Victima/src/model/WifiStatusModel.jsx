@@ -2,7 +2,7 @@ import RNFS from 'react-native-fs';
 const WifiStatusModel = () => {
 
     const handleStatusAlertSQL = async (path) => {
-        console.log('Este metodo debe enviar la alerta cuando se encuentre sin conexion'); 
+        //console.log('Este metodo debe enviar la alerta cuando se encuentre sin conexion'); 
 
         try {
             console.log("Se cargan estos datos----------------------------------------------");
