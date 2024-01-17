@@ -6,11 +6,6 @@ public class DaoFactory
 {
     private DaoFactory() {}
 
-    public static UserDao createUserDao( DBHandler handler )
-    {
-        return new UserDao( handler );
-    }
-
     public static PersonaDao createPersonaDao( DBHandler handler) { return new PersonaDao(handler);}
 
     public static UsuarioDao createUsuarioDao( DBHandler handler ) { return new UsuarioDao(handler);}

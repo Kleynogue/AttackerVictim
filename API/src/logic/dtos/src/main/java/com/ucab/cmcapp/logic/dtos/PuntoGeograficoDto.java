@@ -5,6 +5,8 @@ public class PuntoGeograficoDto extends BaseDto{
     private double latitude;
     private double longitude;
 
+    private String status;
+
 
     public PuntoGeograficoDto(){
     }
@@ -29,11 +31,20 @@ public class PuntoGeograficoDto extends BaseDto{
         this.longitude = longitude;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "PuntoGeograficoDto{" +
                 "latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", status='" + status + '\'' +
                 ", _id=" + _id +
                 '}';
     }
