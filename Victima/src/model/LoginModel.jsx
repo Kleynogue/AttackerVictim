@@ -1,9 +1,12 @@
 import API_URL from '../service/api';
+import messaging from '@react-native-firebase/messaging';
+
 const LoginModel = (navigation) => {
 
     const handleValidarUser = async (userData) => {
 
-        console.log('Este método debe validar el usuario y contraseña');
+       
+  
       
         try {
           const response = await fetch(API_URL+'cmcapp-backend-1.0/api/v1/login', {
@@ -15,6 +18,7 @@ const LoginModel = (navigation) => {
           });
       
           if (response.ok) {
+            
             return true;
 
           } else {

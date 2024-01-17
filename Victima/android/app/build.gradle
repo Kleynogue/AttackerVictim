@@ -1,7 +1,7 @@
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
-
+apply plugin: 'com.google.gms.google-services'
 /**
  * This is the configuration block to customize your React Native Android app.
  * By default you don't need to apply any configuration, just uncomment the lines you need.
@@ -113,6 +113,15 @@ dependencies {
     implementation("com.facebook.react:react-android")
     implementation("com.facebook.react:flipper-integration")
     implementation 'com.google.android.gms:play-services-location:21.0.1' 
+    // Importa el Firebase BoM
+    implementation platform("com.google.firebase:firebase-bom:32.7.0")
+
+    // Agrega las dependencias para los productos de Firebase que quieras usar
+    // Cuando usas el BoM, no especificas versiones en las dependencias de Firebase
+    implementation 'com.google.firebase:firebase-analytics'
+
+    // Agrega las dependencias para cualquier otro producto de Firebase deseado
+    // https://firebase.google.com/docs/android/setup#available-libraries
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
