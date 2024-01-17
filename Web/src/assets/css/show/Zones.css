@@ -9,7 +9,7 @@
 
 .zone_contenedor-titulo{
     width: 80%;
-    margin-top: 150px;
+    margin-top: 50px;
 }
 
 .zone_contenedor-tabla{
@@ -52,11 +52,12 @@
 
 .zone_boton-agregar button{
   width: 150px;
+  
 }
 
 .zone_boton-cancelar button{
-    margin-bottom: 150px;
     width: 150px;
+    margin-bottom: 150px;
 }
 
 .zone_footer{

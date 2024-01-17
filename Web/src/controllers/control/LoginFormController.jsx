@@ -1,5 +1,4 @@
 import LoginFormModel from '../../models/control/LoginFormModel';
-
 const LoginFormController = () => {
 
     const loginFormModel = LoginFormModel();
@@ -9,8 +8,24 @@ const LoginFormController = () => {
         
         const user = event.target.elements.user.value;
         const password = event.target.elements.password.value;
-    
-        loginFormModel.handleValidarUser(user,password);
+
+        /*
+        const userData = {
+            username: 'mariag',
+            password: 'maria123'
+          };*/
+          if(user && password){
+            const userData = {
+                username: user,
+                password: password
+              };
+            
+            loginFormModel.handleValidarUser(userData);  
+          }
+          else{
+            alert("Error");
+          }
+          
     };
 
     return {

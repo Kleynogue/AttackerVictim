@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     loginSubContenedor: {
         backgroundColor: '#FFFFFF',
         width: '85%',
-        height:'40%',
+        height:'60%',
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 16,

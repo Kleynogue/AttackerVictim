@@ -5,8 +5,12 @@ const PhoneController = () => {
     const navigate = useNavigate();
     const phonesModel = PhonesModel();
 
-    const handleRowClick = (telefono) => {
-        navigate('/modificar-telefono/' + telefono.id);
+    const handleRowClick = (telefono, usuario) => {
+        const queryParams = new URLSearchParams({
+            usuario: usuario,
+            dispositivo: telefono.id
+        });
+        navigate('/modificar-telefono/' + `?${queryParams.toString()}`);
     };
 
     const handleGet = async () => {

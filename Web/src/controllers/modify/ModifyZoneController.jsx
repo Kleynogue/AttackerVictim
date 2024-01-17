@@ -5,16 +5,23 @@ const ModifyZoneController = () => {
     const modifyZoneModel = ModifyZoneModel();
 
     //Actualizar zona de seguridad
-    const handleUpdate = (event, id) => {
+    const handleUpdate = (event, id, caso) => {
         event.preventDefault();
             
         const nombre = event.target.elements.ZoneNombre.value;
             
-        modifyZoneModel.handleUpdateSQL(id);
-
         if(nombre){
             console.log('Se actualiza el nombre: '+ nombre);
+            const data = {
+                name: nombre,
+                querella: {id: caso},
+                id: id
+            };
+            modifyZoneModel.handleUpdateSQL(data);
+            alert('La zona se actualiza con exito');
         }
+
+        
     };
 
     //Borrar zona de seguridad
@@ -23,17 +30,36 @@ const ModifyZoneController = () => {
     };
 
     //Submit para crear un nuevo punto de la zona
-    const handleCreatePoint = (event, lat, lng, zona) => {    
+    const handleCreatePoint = async (event, lat, lng, zona) => {    
         event.preventDefault();
       
         if (lat !== null && lng !== null) {
-            const point = {
-                lat: lat,
-                lng: lng,
-            };
+          const point = {
+            lat: lat,
+            lng: lng,
+            
+          };
       
-            event.target.reset();
-            modifyZoneModel.handleCreatePointSQL(point, zona);
+          event.target.reset();
+      
+          // Crear el punto geografico
+          const dataGeografico = {
+            latitude: point.lat,
+            longitude: point.lng,
+            status: "Activo",
+          };
+      
+          const puntoGeografico = await modifyZoneModel.handleCreatePointSQLGeografico(dataGeografico);
+      
+          // Crear el punto de la zona
+          
+
+          const dataPuntoZona = {
+            zona: {id: zona},
+            punto: { id: puntoGeografico.id}
+          };
+          modifyZoneModel.handleCreatePointSQLZona(dataPuntoZona);
+      
         } else {
           alert('Ingrese datos válidos');
         }
@@ -52,8 +78,14 @@ const ModifyZoneController = () => {
     };
 
     //Borrar punto de la zona de seguridad
-    const handleDeletePoint = (id, zona) => { 
-        modifyZoneModel.handleDeletePointSQL(id, zona);
+    const handleDeletePoint = (punto, zona) => { 
+        const data = {
+            latitude: punto.lat,
+            longitude: punto.lng,
+            id: punto.id,
+            status: "Inactivo"
+        };
+        modifyZoneModel.handleDeletePointSQL(data, zona);
     };
 
     //Cuando presionas el mapa muestra un punto
@@ -66,8 +98,8 @@ const ModifyZoneController = () => {
     };
 
     //Obtener puntos de la zona
-    const handleGetPoints = async () => {
-        const jsonDataString = await modifyZoneModel.fetchDataPoints();
+    const handleGetPoints = async (id) => {
+        const jsonDataString = await modifyZoneModel.fetchDataPoints(id);
         //console.log("La data", jsonDataString);
         if (jsonDataString) {
             const jsonData = JSON.parse(jsonDataString);
@@ -78,8 +110,8 @@ const ModifyZoneController = () => {
 
     //Obtener datos de la zona
     const handleGetZones = async (id) => {
-        const jsonDataString = await modifyZoneModel.fetchDataZones();
-        //console.log("La data", jsonDataString);
+        const jsonDataString = await modifyZoneModel.fetchDataZones(id);
+        console.log("La data", jsonDataString);
         if (jsonDataString) {
             const jsonData = JSON.parse(jsonDataString);
             console.log("========= ", jsonData);

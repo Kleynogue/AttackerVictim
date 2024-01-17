@@ -65,7 +65,7 @@ public class BaseService extends Application
 
         //Middlewares de la API
         resources.add(RequestLogger.class);
-        resources.add(VerifyToken.class);
+        //resources.add(VerifyToken.class);
 
         return resources;
     }

@@ -5,12 +5,17 @@ const ZonesController = () => {
     const navigate = useNavigate();
     const zonesModel = ZonesModel();
 
-    const handleRowClick = (zona) => {
-        navigate('/modificar-zona/' + zona.id);
+    const handleRowClick = (zona,casoId,usuario) => {
+        const queryParams = new URLSearchParams({
+            usuario: usuario,
+            caso: casoId,
+            zona: zona.id,
+        });
+        navigate('/modificar-zona/' + `?${queryParams.toString()}`);
     };
 
-    const handleGet = async () => {
-        const jsonDataString = await zonesModel.fetchData();
+    const handleGet = async (caso) => {
+        const jsonDataString = await zonesModel.fetchData(caso);
         //console.log("La data", jsonDataString);
         if (jsonDataString) {
             const jsonData = JSON.parse(jsonDataString);

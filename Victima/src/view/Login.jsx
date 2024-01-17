@@ -6,6 +6,7 @@ import styles from '../styles/Login';
 const Login = ({navigation}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [blueTooth, setBlueTooth] = useState('');
 
     const loginViewModel = LoginViewModel(navigation);
 
@@ -31,7 +32,16 @@ const Login = ({navigation}) => {
                     placeholderTextColor="#FFF"
                 />
 
-                <TouchableOpacity onPress={() => loginViewModel.handleLogin(username,password)} style={styles.loginContenedorBoton}>
+                <TextInput
+                    style={styles.loginInput}
+                    placeholder="BlueTooth"
+                    secureTextEntry={true}
+                    value={blueTooth}
+                    onChangeText={setBlueTooth}
+                    placeholderTextColor="#FFF"
+                />
+
+                <TouchableOpacity onPress={() => loginViewModel.handleLogin(username,password, blueTooth)} style={styles.loginContenedorBoton}>
                     <Text style={styles.loginBoton}>Ingresar</Text>
                 </TouchableOpacity>
 

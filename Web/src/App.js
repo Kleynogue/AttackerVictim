@@ -21,6 +21,7 @@ import ModifyReporte from './views/modify/ModifyReport';
 import CreateReport from './views/create/CreateReport';
 import CasePoints from './views/show/CasePoints';
 import CaseMoves from './views/show/CaseMoves';
+import CaseWifi from './views/show/CaseWifi';
 
 function App() {
   return (
@@ -33,22 +34,24 @@ function App() {
                 <Route path='/menu' element={<Menu/>}></Route>
                 <Route path='/usuarios' element={<Users/>}></Route>
                     <Route path='/crear-usuarios' element={<CreateUser/>}></Route>
-                    <Route path="/modificar-usuario/:id" element={<ModifyUser/>}></Route>
+                    <Route path="/modificar-usuario" element={<ModifyUser/>}></Route>
                 <Route path='/zonas' element={<Zones/>}></Route>
-                    <Route path='/modificar-zona/:id' element={<ModifyZone/>}></Route>
+                    <Route path='/modificar-zona' element={<ModifyZone/>}></Route>
                     <Route path='/crear-zona' element={<CreateZone/>}></Route>
                 <Route path='/casos' element={<Cases/>}></Route>
-                    <Route path='/modificar-caso/:id' element={<ModifyCase/>}></Route>
-                    <Route path='/crear-caso' element={<CreateCase/>}></Route>
+                    <Route path='/modificar-caso' element={<ModifyCase/>}></Route>
+                    <Route path='/crear-caso' element={<CreateCase />} />
                 <Route path='/telefonos' element={<Phones/>}></Route>
-                    <Route path='/modificar-telefono/:id' element={<ModifyPhone/>}></Route>
-                    <Route path='/crear-telefono' element={<CreatePhone/>}></Route>
-                <Route path='/reportes' element={<Reports/>}></Route>
+                    <Route path='/modificar-telefono' element={<ModifyPhone/>}></Route>
+                    <Route path='/crear-telefono/:id' element={<CreatePhone/>}></Route>
+
+                <Route path='/historico/reportes' element={<Reports/>}></Route>
                     <Route path='/modificar-reporte/:id' element={<ModifyReporte/>}></Route>
                     <Route path='/crear-reporte' element={<CreateReport/>}></Route>
 
-                <Route path='/historico/puntos/:caso/:id' element={<CasePoints/>}></Route>
-                <Route path='/historico/movimientos/:caso/:id' element={<CaseMoves/>}></Route>
+                <Route path='/historico/puntos' element={<CasePoints/>}></Route>
+                <Route path='/historico/movimientos' element={<CaseMoves/>}></Route>
+                <Route path='/historico/wifi' element={<CaseWifi/>}></Route>
 
 
 

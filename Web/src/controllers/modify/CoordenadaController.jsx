@@ -8,25 +8,26 @@ const CoordenadaController = () => {
         const jsonDataString = await coordenadaModel.fetchDataCoordenadaParticipante(id);
         if (jsonDataString) {
             const jsonData = JSON.parse(jsonDataString);
-            console.log("========= ", jsonData);
+            //console.log("========= ", jsonData);
             return(jsonData);
         }
     };
 
-    const handleGetZonas = async () => {
-        const jsonDataString = await coordenadaModel.fetchDataZonas();
+    const handleGetZonas = async (id) => {
+        
+        const jsonDataString = await coordenadaModel.fetchDataZonas(id);
         if (jsonDataString) {
             const jsonData = JSON.parse(jsonDataString);
-            console.log("========= ", jsonData);
+            //console.log("========= ", jsonData);
             return(jsonData);
         }
     };
 
-    const handleGetZonaID = async () => {
-        const jsonDataString = await coordenadaModel.fetchDataZonaID();
+    const handleGetZonaID = async (id) => {
+        const jsonDataString = await coordenadaModel.fetchDataZonaID(id);
         if (jsonDataString) {
             const jsonData = JSON.parse(jsonDataString);
-            console.log("========= ", jsonData);
+            //console.log("========= ", jsonData);
             return(jsonData);
         }
     };

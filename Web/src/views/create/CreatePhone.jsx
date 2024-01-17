@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Header from '../../components/Header';
+import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import ButtonCompo from '../../components/Button';
 import InputField from '../../components/InputField';
@@ -23,6 +24,7 @@ const CreatePhone = () => {
         <div className='createPhone_contenedor'>
             <div>
                 <Header/>
+                <Navbar/>
             </div>
 
             <div className='createPhone_titulo'>
@@ -36,6 +38,8 @@ const CreatePhone = () => {
                         <InputField type='text'  label='Bluetooth' idcontrol='PhoneBluetooth'/>
                         <InputField type='text'  label='Usuario' idcontrol='PhoneUsuario'/>
                         <InputField type='text'  label='Caso' idcontrol='PhoneCaso'/>
+                        <InputField type='date'  label='Inicio' idcontrol='CaseInicio' />
+                        <InputField type='date'  label='Final' idcontrol='CaseFinal' />
                         
                         <div className="createPhone_contenedor-boton-crear">
                             <Button type="submit" className="createPhone_form-boton">Crear</Button>

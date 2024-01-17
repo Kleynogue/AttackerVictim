@@ -10,6 +10,8 @@ const CreatePhoneController = () => {
         const bluetooth = event.target.elements.PhoneBluetooth.value;
         const usuario = event.target.elements.PhoneUsuario.value;
         const caso = event.target.elements.PhoneCaso.value;
+        const inicio = event.target.elements.CaseInicio.value;
+        const final = event.target.elements.CaseFinal.value;
 
         createPhoneModel.handleCreateSQL();
 

@@ -1,0 +1,46 @@
+.navbar_contenedor{
+    width: 100%;
+    background-color: #f2f2f2;
+}
+
+.navbar {
+    margin-top: 100px;
+    width: 100%;
+    font-size: 18px;
+  }
+  
+  .navbar ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+  }
+  
+  .navbar li {
+    flex: 1;
+    text-align: center;
+    margin-right: 10px;
+    border: 2px solid rgb(66, 66, 66);
+    
+    
+  }
+  
+  .navbar li a {
+    display: block;
+    color: #000;
+    text-decoration: none;
+    transition: color 0.3s;
+    padding: 20px;
+    padding-inline: 70px;
+  }
+  
+  .navbar li a:hover {
+    color: white; /* Cambia el color al pasar el cursor */
+    
+  }
+
+  .navbar li:hover {
+    background-color: rgb(66, 66, 66);
+    
+  }

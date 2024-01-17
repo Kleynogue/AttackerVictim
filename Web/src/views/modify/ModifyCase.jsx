@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Form, Row} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import ButtonCompo from '../../components/Button';
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
+import Navbar from '../../components/Navbar';
 import InputField from '../../components/InputField';
 import Dropdown from '../../components/Dropdown';
 import MapaParticipantes from '../../components/MapaParticipantes';
@@ -15,6 +16,9 @@ import CoordenadaController from '../../controllers/modify/CoordenadaController'
 import '../../assets/css/modify/ModifyCase.css';
 
 const ModifyCase = () => {
+
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
 
     const [caso, setCaso] = useState([]);
     const [zonas, setZonas] = useState([]);
@@ -28,54 +32,113 @@ const ModifyCase = () => {
     const [victimCoordenada, setVictimCoordenada] = useState([]);
     const [victimMarkerPosition, setVictimMarkerPosition] = useState([]);
 
-    const params = useParams();
+    const [casoId, setCasoId] = useState();
+
     const modifyCaseController = ModifyCaseController();
     const coordenadaController = CoordenadaController();
 
+    const queryParamsUser = new URLSearchParams({
+        usuario: searchParams.get('usuario'),
+    });
+
+    const queryParams = new URLSearchParams({
+        usuario: searchParams.get('usuario'),
+        caso: searchParams.get('caso'),
+    });
+
+    const [urlHistoricoAgresor, setUrlHistoricoAgresor] = useState();
+    const [urlHistoricoVictima, setUrlHistoricoVictima] = useState();
+
     const optionsStatus = [
         { key: '1', value: 'empty', label: '-Deseleccionar-' },
-        { key: '2', value: 'activo', label: 'Activo' }, 
-        { key: '3', value: 'inactivo', label: 'Inactivo' },
+        { key: '2', value: 'Activo', label: 'Activo' }, 
+        { key: '3', value: 'Concluido', label: 'Concluido' },
         
     ];
 
+    const [intervalId, setIntervalId] = useState(null);
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
+useEffect(() => {
+  window.scrollTo(0, 0);
 
-        modifyCaseController.handleGetCase()
-        .then((jsonData) => {
-            setCaso(jsonData);
-            setStatusActual("(Valor actual: " + jsonData.status+ ")");
-        })
-        .catch((error) => {console.error('Error al obtener los datos:', error);});
+  setCasoId(searchParams.get('caso'));
 
-        modifyCaseController.handleGetParticipante(11)
-        .then((jsonData) => {setAttacker(jsonData);})
-        .catch((error) => {console.error('Error al obtener los datos:', error);});
+  return () => {
+    clearInterval(intervalId);
+  };
+}, [casoId]);
 
-        modifyCaseController.handleGetParticipante(12)
-        .then((jsonData) => {setVictim(jsonData);})
-        .catch((error) => {console.error('Error al obtener los datos:', error);});
+useEffect(() => {
+  if (casoId) {
+    modifyCaseController.handleGetCase(casoId)
+      .then((jsonData) => {
+        setCaso(jsonData);
+        setStatusActual("(Valor actual: " + jsonData.status + ")");
 
-        coordenadaController.handleGetZonas()
-        .then((jsonData) => {setZonas(jsonData)
+        coordenadaController.handleGetZonas(casoId)
+          .then(async (jsonData) => {
+            setZonas(jsonData);
             console.log(jsonData);
-        })
-        .catch((error) => {console.error('Error al obtener los datos:', error);});
+          })
+          .catch((error) => {
+            console.error('Error al obtener los datos:', error);
+          });
+
+        const queryParamsVictima = new URLSearchParams({
+          usuario: searchParams.get('usuario'),
+          caso: casoId,
+          participante: jsonData.victima,
+        });
+        setUrlHistoricoVictima(queryParamsVictima.toString());
+
+        const queryParamsAgresor = new URLSearchParams({
+          usuario: searchParams.get('usuario'),
+          caso: casoId,
+          participante: jsonData.atacante,
+        });
+        setUrlHistoricoAgresor(queryParamsAgresor.toString());
+
+        coordenadaController.handleGetCoordenada(jsonData.idAtacante)
+          .then((jsonData) => {
+            setAttackerCoordenada(jsonData);
+          })
+          .catch((error) => {
+            console.error('Error al obtener los datos:', error);
+          });
+
+        coordenadaController.handleGetCoordenada(jsonData.idVictima)
+          .then((jsonData) => {
+            setVictimCoordenada(jsonData);
+          })
+          .catch((error) => {
+            console.error('Error al obtener los datos:', error);
+          });
 
         const interval = setInterval(() => {
-            coordenadaController.handleGetCoordenada(11)
-            .then((jsonData) => {setAttackerCoordenada(jsonData);})
-            .catch((error) => {console.error('Error al obtener los datos:', error);});
+          coordenadaController.handleGetCoordenada(jsonData.idAtacante)
+            .then((jsonData) => {
+              setAttackerCoordenada(jsonData);
+            })
+            .catch((error) => {
+              console.error('Error al obtener los datos:', error);
+            });
 
-            coordenadaController.handleGetCoordenada(12)
-            .then((jsonData) => {setVictimCoordenada(jsonData);})
-            .catch((error) => {console.error('Error al obtener los datos:', error);});
+          coordenadaController.handleGetCoordenada(jsonData.idVictima)
+            .then((jsonData) => {
+              setVictimCoordenada(jsonData);
+            })
+            .catch((error) => {
+              console.error('Error al obtener los datos:', error);
+            });
         }, 10000);
-        return () => {clearInterval(interval);};
-        
-    }, []);
+
+        setIntervalId(interval);
+      })
+      .catch((error) => {
+        console.error('Error al obtener los datos:', error);
+      });
+  }
+}, [casoId]);
 
 
     useEffect(() => {
@@ -95,6 +158,7 @@ const ModifyCase = () => {
         <div className='modifyCase_contenedor'>
             <div>    
                 <Header/>
+                <Navbar/>
             </div>
 
 
@@ -104,16 +168,15 @@ const ModifyCase = () => {
             
 
             <div >
-                <Form onSubmit={(e) => modifyCaseController.handleUpdate(e,params.id)} className="modifyCase_form">
+                <Form onSubmit={(e) => modifyCaseController.handleUpdate(e,casoId,caso)} className="modifyCase_form">
                         
-                        <p className='modifyCase_id'>id: {params.id}</p>
+                        <p className='modifyCase_id'>id: {casoId}</p>
 
-                        <InputField type='text'  label='Atacante' idcontrol='CaseAtacante'ph={caso.atacante}/>
-                        <InputField type='text'  label='Victima' idcontrol='CaseVictima' ph={caso.victima}/>
-                        <InputField type='text'  label='Distancia' idcontrol='CaseDistancia' ph={caso.distancia}/>
-                        <InputField type='time'  label={'Tiempo (Valor actual: '+caso.tiempo+')'} idcontrol='CaseTiempo' />
-                        <InputField type='date'  label={'Inicio (Valor actual: '+caso.inicio+')'} idcontrol='CaseInicio' />
-                        <InputField type='date'  label={'Final (Valor actual: '+caso.final+')'} idcontrol='CaseFinal'/>
+                        {/*<InputField type='text'  label='Atacante' idcontrol='CaseAtacante'ph={caso.atacante}/>
+                        <InputField type='text'  label='Victima' idcontrol='CaseVictima' ph={caso.victima}/>*/}
+                        <InputField type='number'  label='Distancia' idcontrol='CaseDistancia' ph={caso.distancia} maxLength={5}/>
+                        <InputField type='number'  label='Tiempo' ph={caso.tiempo} idcontrol='CaseTiempo' maxLength={5}/>
+                        
 
                         <Dropdown options={optionsStatus} label="Status" actual={statusActual} clave='CaseStatus'/>
 
@@ -123,12 +186,17 @@ const ModifyCase = () => {
                         </div>
 
                         <div>
-                            <ButtonCompo buttonText="Cancelar" route="/casos" />
+                            <ButtonCompo buttonText="Zonas" route="/zonas" id={`?${queryParams.toString()}`}/>
                         </div>
 
-                        <div className="modifyCase_contenedor-boton">
-                            <Button onClick={() => modifyCaseController.handleDelete(params.id)} className="modifyCase_boton">Eliminar</Button>
+                        <div>
+                            <ButtonCompo buttonText="Volver" route="/casos" id={`?${queryParamsUser.toString()}`} />
                         </div>
+
+                        {/* 
+                        <div className="modifyCase_contenedor-boton">
+                            <Button onClick={() => modifyCaseController.handleDelete(casoId)} className="modifyCase_boton">Eliminar</Button>
+                        </div>*/}
 
                 </Form>
             </div>
@@ -148,37 +216,45 @@ const ModifyCase = () => {
 
                 <div className='modifyCase_participante' >
                     <div  className="modifyCase_contenedor-participante-info">
-                        <p>Atacante: {attacker.nombre} {attacker.apellido}</p>
+                        <p>Atacante: {caso.atacante}</p>
                     </div>
 
                     <div  className="modifyCase_contenedor-participante-info">
-                        <p>Hora:  {attackerCoordenada.fecha}</p>
+                        <p>Hora: {attackerCoordenada && attackerCoordenada.fecha !== null ? attackerCoordenada.fecha : 'N/A'}</p>
                     </div>
 
                     <div>
-                        <p className="modifyCase_coordenadas">({attackerCoordenada.latitud} , {attackerCoordenada.longitud})</p>
+                        <p className="modifyCase_coordenadas">
+                        {attackerCoordenada && attackerCoordenada.latitud !== null && attackerCoordenada.longitud !== null
+                        ? `(${attackerCoordenada.latitud}, ${attackerCoordenada.longitud})`
+                        : 'N/A'}
+                        </p>
                     </div>
 
                     <div className="modifyCase_container-button-input-caso">
-                        <ButtonCompo  buttonText="Historico" route={"/historico/puntos/"+params.id+"/"+caso.atacante} />
+                        <ButtonCompo  buttonText="Historico" route={"/historico/puntos"} id={`?${urlHistoricoAgresor}`} />
                     </div>
                 </div>
 
                 <div className='modifyCase_participante' >
                     <div  className="modifyCase_contenedor-participante-info">
-                        <p>Victima: {victim.nombre} {victim.apellido}</p>
+                        <p>Victima: {caso.victima}</p>
                     </div>
 
                     <div  className="modifyCase_contenedor-participante-info">
-                        <p>Hora: {victimCoordenada.fecha}</p>
+                        <p>Hora: {victimCoordenada && victimCoordenada.fecha !== null ? victimCoordenada.fecha : 'N/A'}</p>
                     </div>
 
                     <div>
-                        <p className="modifyCase_coordenadas">({victimCoordenada.latitud} , {victimCoordenada.longitud})</p>
+                        <p className="modifyCase_coordenadas">
+                            {victimCoordenada && victimCoordenada.latitud !== null && victimCoordenada.longitud !== null
+                            ? `(${victimCoordenada.latitud}, ${victimCoordenada.longitud})`
+                            : 'N/A'}
+                        </p>
                     </div>
 
                     <div >
-                        <ButtonCompo  buttonText="Historico" route={"/historico/puntos/"+params.id+"/"+caso.victima} />
+                        <ButtonCompo  buttonText="Historico" route={"/historico/puntos"} id={`?${urlHistoricoVictima}`}/>
                     </div>
                 </div>
 

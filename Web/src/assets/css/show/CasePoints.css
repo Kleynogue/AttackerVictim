@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     grid-gap: 25px;
-    height: 50vh;
+    height: auto;
     width: 100%;
     justify-items: center;
 }
@@ -10,7 +10,7 @@
 .casePoints_titulo{
     display: flex;
     width: 80%;
-    margin-top: 150px;
+    margin-top: 50px;
 }
 
 .casePoints_titulo-principal{

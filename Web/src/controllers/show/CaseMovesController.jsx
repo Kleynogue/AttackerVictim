@@ -5,8 +5,8 @@ const CaseMovesController = () => {
     const caseMovesModel = CaseMovesModel();
 
     //Obtener puntos de la zona
-    const handleGetData = async () => {
-        const jsonDataString = await caseMovesModel.fetchData();
+    const handleGetData = async (id) => {
+        const jsonDataString = await caseMovesModel.fetchData(id);
         //console.log("La data", jsonDataString);
         if (jsonDataString) {
             const jsonData = JSON.parse(jsonDataString);

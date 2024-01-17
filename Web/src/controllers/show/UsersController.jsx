@@ -5,8 +5,12 @@ const UsersController = () => {
     const navigate = useNavigate();
     const usersModel = UsersModel();
 
-    const handleRowClick = (usuario) => {
-        navigate('/modificar-usuario/' + usuario.id);
+    const handleRowClick = (participante, usuario) => {
+        const queryParams = new URLSearchParams({
+            usuario: usuario,
+            participante: participante.id
+        });
+        navigate('/modificar-usuario/' + `?${queryParams.toString()}`);
     };
 
     const handleGet = async () => {

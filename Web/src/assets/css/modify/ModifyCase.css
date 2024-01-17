@@ -9,7 +9,7 @@
 
 .modifyCase_titulo{
     width: 80%;
-    margin-top: 150px;
+    margin-top: 50px;
 }
 
 
@@ -35,7 +35,7 @@
 }
 
 .modifyCase_boton {
-    width: 40%;
+    width: 100px;
     padding: 5px;
     margin-top: 25px;
     background-color: rgb(255, 255, 255);

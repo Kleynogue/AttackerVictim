@@ -2,27 +2,32 @@ import { useNavigate } from 'react-router-dom';
 import ReportsModel from '../../models/show/ReportsModel';
 
 const ReportsController = () => {
-    const navigate = useNavigate();
     const reportsModel = ReportsModel();
 
-    const handleRowClick = (reporte) => {
-        navigate('/modificar-reporte/' + reporte.id);
+    //Cuando presionas un punto de la lista este se muestra en el mapa
+    const handleRowClick = (punto,setPuntoSeleccionado) => {
+        const clickedLatLng = {
+            lat: punto.latitud,
+            lng: punto.longitud,
+            id: punto.id,
+        };
+          setPuntoSeleccionado(clickedLatLng);
     };
 
-    const handleGet = async () => {
-        const jsonDataString = await reportsModel.fetchData();
+    //Obtener puntos de la zona
+    const handleGetPoints = async (id) => {
+        const jsonDataString = await reportsModel.fetchDataPoints(id);
         //console.log("La data", jsonDataString);
         if (jsonDataString) {
             const jsonData = JSON.parse(jsonDataString);
+            console.log("========= ", jsonData);
             return(jsonData);
-            //console.log("========= ", jsonData.nombre);
         }
     };
     
-
     return {
         handleRowClick,
-        handleGet,
+        handleGetPoints
     };
 };
 

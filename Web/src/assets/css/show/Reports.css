@@ -2,18 +2,20 @@
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     grid-gap: 25px;
-    height: 50vh;
+    height: auto;
     width: 100%;
     justify-items: center;
 }
 
 .report_contenedor-titulo{
     width: 80%;
-    margin-top: 150px;
+    margin-top: 50px;
 }
 
 .report_contenedor-tabla{
     width: 75%;
+    max-height: 300px; 
+    overflow: auto;
 }
 
 .report_tabla {
@@ -25,6 +27,11 @@
     text-align: center;
 }
   
+.report_tabla thead th {
+    position: sticky;
+    top: 0;
+}
+
 .report_tabla th {
     background-color: rgb(66, 66, 66);
     color: rgb(255, 255, 255);
@@ -52,6 +59,7 @@
 
 .report_boton-agregar button{
   width: 150px;
+  margin-bottom: 150px;
 }
 
 .report_boton-cancelar button{
