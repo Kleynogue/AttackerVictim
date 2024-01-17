@@ -3,11 +3,11 @@ import ButtonController from '../controllers/components/ButtonController';
 
 import '../assets/css/components/Button.css';
 
-const Button = ({ buttonText, route }) => {
+const Button = ({ buttonText, route , id}) => {
   const buttonController = ButtonController();
 
   const handleClick = () => {
-    buttonController.handleClick(route);
+    buttonController.handleClick(route, id);
   };
 
   return (

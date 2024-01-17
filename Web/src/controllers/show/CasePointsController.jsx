@@ -15,8 +15,8 @@ const CasePointsController = () => {
     };
 
     //Obtener puntos de la zona
-    const handleGetPoints = async () => {
-        const jsonDataString = await casePointsModel.fetchDataPoints();
+    const handleGetPoints = async (id) => {
+        const jsonDataString = await casePointsModel.fetchDataPoints(id);
         //console.log("La data", jsonDataString);
         if (jsonDataString) {
             const jsonData = JSON.parse(jsonDataString);

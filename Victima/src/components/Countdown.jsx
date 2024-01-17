@@ -2,14 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import Torch from 'react-native-torch';
+import MainViewModel from '../viewmodel/MainViewModel';
+import Geolocation from 'react-native-geolocation-service';
 
-const Countdown = () => {
+const Countdown = ({tiempo, telefono}) => {
   const [isTorchOn, setIsTorchOn] = useState(false);
   const [countdown, setCountdown] = useState(null);
   const [initialCountdown, setInitialCountdown] = useState(null);
   const [isCounting, setIsCounting] = useState(false);
   const [countdownFinished, setCountdownFinished] = useState(false);
   const [isAlertSent, setIsAlertSent] = useState(false);
+  const mainViewModel = MainViewModel();
 
   const options = {
     enableVibrateFallback: true,
@@ -33,11 +36,29 @@ const Countdown = () => {
       let flashlightInterval = setInterval(() => {
         Torch.switchState(!isTorchOn);
         setIsTorchOn((prevIsTorchOn) => !prevIsTorchOn);
-      }, 1000);
+      }, 700);
 
       let hapticInterval = setInterval(() => {
         ReactNativeHapticFeedback.trigger('impactHeavy', options);
-      }, 1000);
+      }, 700);
+
+        Geolocation.getCurrentPosition(
+        async (position) => {
+
+            let dataPuntoGeografico = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                status: "Activo"};
+            console.log("Reporte "+JSON.stringify(dataPuntoGeografico));
+            const idPunto = await mainViewModel.handleCreatePosition(dataPuntoGeografico);
+            mainViewModel.handleCreateReporte(idPunto, "Tiempo de control",telefono);
+            alert('Alerta enviada a las autoridades');
+        },
+        (error) => {
+        console.log(error);
+        }
+        
+        );
 
       setTimeout(() => {
         clearInterval(flashlightInterval);
@@ -52,7 +73,7 @@ const Countdown = () => {
   }, [countdown, isCounting, countdownFinished, isAlertSent, isTorchOn]);
 
   const handleStart = () => {
-    const initialCountdownValue = 5;
+    const initialCountdownValue = tiempo;
     setCountdown(initialCountdownValue);
     setInitialCountdown(initialCountdownValue);
     setIsCounting(true);

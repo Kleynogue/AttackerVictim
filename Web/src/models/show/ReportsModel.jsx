@@ -1,28 +1,57 @@
+import API_URL from '../../service/api';
 const ReportsModel = () => {
 
-    const fetchData = async () => {
+    const fetchDataPoints = async (id) => {
         try {
-            // Obtener los datos de la API
-            // const response = await fetch('URL_DE_LA_API');
-            // const jsonData = await response.json();
-        
-            // Simulación de los datos de JSON
-            const jsonData = `[ {"id": 1,"telefono": "2","fecha": "00/00/0000","localizacion": "Localizacion 1"},
-                                {"id": 2,"telefono": "4","fecha": "00/00/0000","localizacion": "Localizacion 2"},
-                                {"id": 3,"telefono": "7","fecha": "00/00/0000","localizacion": "Localizacion 3"},
-                                {"id": 4,"telefono": "1","fecha": "00/00/0000","localizacion": "Localizacion 4"},
-                                {"id": 5,"telefono": "5","fecha": "00/00/0000","localizacion": "Localizacion 5"},
-                                {"id": 6,"telefono": "3","fecha": "00/00/0000","localizacion": "Localizacion 6"}]`;
-        
-            return jsonData;
+            const response = await fetch(API_URL+'cmcapp-backend-1.0/api/v1/query/reporte/1?phone=' + extractLastNumber(id));
+            const json = await response.json();
+            const jsonData = Object.values(json);
+            return JSON.stringify(transformData(jsonData));
         } catch (error) {
             console.error('Error al obtener los datos:', error);
             return null;
         }
     };
 
+    function transformData(data) {
+        return data.map(item => {
+          const { id,type ,date, puntoGeografico: { latitude, longitude } } = item;
+          //const formattedFecha = formatDate(fechaInicio);
+      
+          return {
+            id,
+            type,
+            fecha: date,
+            latitud: latitude,
+            longitud: longitude
+          };
+        });
+    }
+      
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear().toString();
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        
+        return `${day}/${month}/${year} ${hours}:${minutes}`;
+    }
+
+    function extractLastNumber(str) {
+        const regex = /\((\d+)\)[^\(\)]*$/;
+        const match = str.match(regex);
+        
+        if (match && match[1]) {
+          return parseInt(match[1]);
+        }
+        
+        return null;
+    }
+
     return {
-        fetchData,
+        fetchDataPoints,
     };
 };
 

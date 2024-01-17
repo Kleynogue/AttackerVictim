@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import MainViewModel from '../viewmodel/MainViewModel';
+
 import MapView, { Marker } from 'react-native-maps';
 import { StyleSheet, View, Text } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import { PermissionsAndroid } from 'react-native';
 
-const MapComponent = () => {
+const MapComponent = ({telefono}) => {
   const [currentPosition, setCurrentPosition] = useState(null);
   const [lastUpdateTime, setLastUpdateTime] = useState(null);
-
+  const mainViewModel = MainViewModel();
   useEffect(() => {
 
     const requestLocationPermission = async () => {
@@ -28,24 +30,36 @@ const MapComponent = () => {
         } catch (error) {
           console.warn('Error requesting location permission:', error);
         }
-      };
+    };
   
       // Llama a la función para solicitar el permiso de ubicación
       requestLocationPermission();
 
 
     const intervalId = setInterval(() => {
-      Geolocation.getCurrentPosition(
-        (position) => {
-          setCurrentPosition(position.coords);
-          setLastUpdateTime(new Date().toLocaleTimeString());
-        },
-        (error) => {
-          console.log(error);
-        },
-        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-      );
-    }, 5000);
+        Geolocation.getCurrentPosition(
+                async (position) => {
+                    setCurrentPosition(position.coords);
+                   
+                    setLastUpdateTime(new Date().toLocaleTimeString());
+
+                   
+
+                    let dataPuntoGeografico = {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        status: "Activo"};
+                    //console.log("--> "+JSON.stringify(dataPuntoGeografico));
+                    const idPunto = await mainViewModel.handleCreatePosition(dataPuntoGeografico);
+                    mainViewModel.handleCreateHistoricoPunto(idPunto, telefono);
+
+                },
+                (error) => {
+                console.log(error);
+                },
+                { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+        );
+    }, 10000);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -60,6 +74,8 @@ const MapComponent = () => {
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
         }}
+        provider={MapView.PROVIDER_GOOGLE}
+        apiKey="AIzaSyAVCv2edVHkkor2XENUBSsamIXFgMFn8UM"
       >
         {currentPosition && (
           <Marker

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
+import Navbar from '../../components/Navbar';
 import MapaHistorico from '../../components/MapaHistorico';
 import ButtonCompo from '../../components/Button';
 
@@ -11,16 +12,34 @@ import '../../assets/css/show/CasePoints.css';
 
 const CasePoints = () => {
 
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+
+    const casePointsController = CasePointsController();
+
     const [markerPosition, setMarkerPosition] = useState(null);
     const [puntos, setPuntos] = useState([]);
+    const [caso, setCaso] = useState();
+    const [participante, setParticipante] = useState();
 
-    const params = useParams();
-    const casePointsController = CasePointsController();
+    const queryParamsBase = new URLSearchParams({   
+        usuario: searchParams.get('usuario'),
+        caso: searchParams.get('caso'),
+    });
+
+    const queryParams = new URLSearchParams({
+        usuario: searchParams.get('usuario'),
+        caso: searchParams.get('caso'),
+        participante: searchParams.get('participante'),
+    });
 
     useEffect(() => {
         window.scrollTo(0, 0);
 
-        casePointsController.handleGetPoints()
+        setCaso(searchParams.get('caso'));
+        setParticipante(searchParams.get('participante'));
+
+        casePointsController.handleGetPoints(searchParams.get('participante'))
         .then((jsonData) => {setPuntos(jsonData);
         })
         .catch((error) => {
@@ -34,23 +53,36 @@ const CasePoints = () => {
         <div className='casePoints_contenedor'>
             <div>    
                 <Header/>
+                <Navbar/>
             </div>
 
             <div  className='casePoints_titulo'>
                 <h1 >PUNTOS/</h1>
 
                 <h1 >
-                    <a className='casePoints_titulo-secundario' href={"/historico/movimientos/"+params.caso+"/"+params.id}>MOVIMIENTOS</a>
+                    <a className='casePoints_titulo-secundario' href={"/historico/movimientos"+`?${queryParams.toString()}`}>MOVIMIENTOS</a>
+                </h1>
+
+                <h1 >/</h1>
+
+                <h1 >
+                    <a className='casePoints_titulo-secundario' href={"/historico/reportes"+`?${queryParams.toString()}`}>REPORTES</a>
+                </h1>
+
+                <h1 >/</h1>
+                
+                <h1 >
+                    <a className='caseMoves_titulo-secundario' href={"/historico/wifi"+`?${queryParams.toString()}`}>CONEXION</a>
                 </h1>
             </div>
 
             <div className='casePoints_contenedor-usuario'>
                 <div>
-                    <p className="casePoints_usuario">Id del telefono del usuario: {params.id} </p>
+                    <p className="casePoints_usuario">Id del telefono del usuario: {participante} </p>
                 </div>
 
                 <div>
-                    <ButtonCompo buttonText="Volver" route={"/modificar-caso/"+params.caso} />
+                    <ButtonCompo buttonText="Volver" route={"/modificar-caso"} id={`?${queryParamsBase.toString()}`} />
                 </div>
             </div>
 

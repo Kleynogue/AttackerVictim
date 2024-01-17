@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Header from '../../components/Header';
+import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import ButtonCompo from '../../components/Button';
 import InputField from '../../components/InputField';
@@ -54,6 +55,7 @@ const ModifyReport = () => {
         <div className='modifyReport_contenedor'>
             <div>
                 <Header/>
+                <Navbar/>
             </div>
 
             <div className='modifyReport_titulo'>

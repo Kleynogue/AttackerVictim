@@ -29,25 +29,29 @@ const MotionStatusViewmodel = () => {
         archiveViewmodel.saveDataToJsonFile(data, "/motion.txt");
         
     };
-
-    const handleMotion = (setX, setY, setIsMoving, prevMoving, prevX, prevY, x, y, z) => {
+    
+    const handleMotion = (aux, setX, setY, setZ, setIsMoving, prevMoving, prevX, prevY, prevZ, x, y, z) => {
         setX(x);
         setY(y);
+        setZ(z);
       
         // Verificar si ha cambiado la posición basado en los valores de x, y
         const motionThreshold = 0.5; // Umbral de movimiento (ajusta según tus necesidades)
-        const hasPositionChanged = Math.abs(prevX.current - x) > motionThreshold || Math.abs(prevY.current - y) > motionThreshold;
-        
+        const hasPositionChanged = Math.abs(prevX.current - x) > motionThreshold || Math.abs(prevY.current - y) > motionThreshold || Math.abs(prevZ.current - z) > motionThreshold;
+        aux.x = Math.abs(prevX.current - x) > motionThreshold;
+        aux.y = Math.abs(prevY.current - y) > motionThreshold;
+        aux.z = Math.abs(prevZ.current - z) > motionThreshold;
         //La alerta solo sera enviada en el primer momento que se encuentre sin movimiento, luego debera
         //retomar el movimiento nuevamente para poder mandar la alerta 
         if((!hasPositionChanged && prevMoving.current) || (hasPositionChanged && !prevMoving.current)){ 
-            handleMotionAlert(hasPositionChanged) 
+            //handleMotionAlert(hasPositionChanged) 
         }
 
         setIsMoving(hasPositionChanged);
         // Actualizar los valores previos
         prevX.current = x;
         prevY.current = y;
+        prevZ.current = z;
         prevMoving.current = hasPositionChanged;
     };
 

@@ -2,18 +2,21 @@
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     grid-gap: 25px;
-    height: 50vh;
+    height: auto;
     width: 100%;
     justify-items: center;
 }
 
 .phone_contenedor-titulo{
     width: 80%;
-    margin-top: 150px;
+    margin-top: 50px;
 }
 
 .phone_contenedor-tabla{
     width: 75%;
+    max-height: 300px; 
+    overflow: auto;
+    margin-bottom: 200px;
 }
 
 .phone_tabla {
@@ -21,8 +24,13 @@
     border-collapse: collapse;
     border: 3px solid rgb(44, 44, 44);
     font-size: 18px;
-    margin-bottom: 50px;
+    
     text-align: center;
+}
+
+.phone_tabla thead th {
+    position: sticky;
+    top: 0;
 }
   
 .phone_tabla th {
@@ -52,6 +60,7 @@
 
 .phone_boton-agregar button{
   width: 150px;
+  margin-bottom: 150px;
 }
 
 .phone_boton-cancelar button{

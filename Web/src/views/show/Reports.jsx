@@ -1,79 +1,128 @@
 import React, { useState, useEffect } from 'react';
-import Footer from '../../components/Footer';
-import Header from '../../components/Header';
-import Button from '../../components/Button';
+import { useLocation } from 'react-router-dom';
+import Footer from "../../components/Footer";
+import Header from "../../components/Header";
+import Navbar from '../../components/Navbar';
+import MapaHistorico from '../../components/MapaHistorico';
+import ButtonCompo from '../../components/Button';
 
-import ReportsController from '../../controllers/show/ReportsController';
+import ReportController from '../../controllers/show/ReportsController';
 
-import '../../assets/css/show/Reports.css';
-
+import '../../assets/css/show/CasePoints.css';
 
 const Reports = () => {
 
-    const reportsController = ReportsController();
-    const [reportes, setReportes] = useState([]);
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+
+    const reportController = ReportController();
+
+    const [markerPosition, setMarkerPosition] = useState(null);
+    const [puntos, setPuntos] = useState([]);
+    const [caso, setCaso] = useState();
+    const [participante, setParticipante] = useState();
+
+    const queryParamsBase = new URLSearchParams({   
+        usuario: searchParams.get('usuario'),
+        caso: searchParams.get('caso'),
+    });
+
+    const queryParams = new URLSearchParams({
+        usuario: searchParams.get('usuario'),
+        caso: searchParams.get('caso'),
+        participante: searchParams.get('participante'),
+    });
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        
-        reportsController.handleGet()
-        .then((jsonData) => {setReportes(jsonData);
+
+        setCaso(searchParams.get('caso'));
+        setParticipante(searchParams.get('participante'));
+
+        reportController.handleGetPoints(searchParams.get('participante'))
+        .then((jsonData) => {setPuntos(jsonData);
         })
         .catch((error) => {
             console.error('Error al obtener los datos:', error);
         });
+
     }, []);
 
+
     return (
-    <div className='report_contenedor'>
+        <div className='casePoints_contenedor'>
+            <div>    
+                <Header/>
+                <Navbar/>
+            </div>
 
-        <div>
-          <Header/>
-        </div>
+            <div  className='casePoints_titulo'>
+                <h1 >
+                    <a className='caseMoves_titulo-secundario' href={"/historico/puntos"+`?${queryParams.toString()}`}>PUNTOS</a>
+                </h1>
 
-        <div className='report_contenedor-titulo'>
-          <h1> REPORTES</h1>
-        </div>
+                <h1 >/</h1>
 
-        <div className='report_contenedor-tabla'>
-        
-            <table className='report_tabla'>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Telefono</th>
-                        <th>Fecha</th>
-                        <th>Localizacion</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {reportes.map((reporte) => (
-                    <tr key={reporte.id} onClick={() => reportsController.handleRowClick(reporte)}>
-                    <td>{reporte.id}</td>
-                    <td>{reporte.telefono}</td>
-                    <td>{reporte.fecha}</td>
-                    <td>{reporte.localizacion}</td>
-                    </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+                <h1 >
+                    <a className='casePoints_titulo-secundario' href={"/historico/movimientos"+`?${queryParams.toString()}`}>MOVIMIENTOS</a>
+                </h1>
+                
+                <h1 >/REPORTES/</h1>
 
-        <div className='report_boton-agregar'>
-            <Button buttonText="Crear" route="/crear-reporte" />
-        </div>
+                <h1 >
+                    <a className='caseMoves_titulo-secundario' href={"/historico/wifi"+`?${queryParams.toString()}`}>CONEXION</a>
+                </h1>
+            </div>
 
-        <div className='report_boton-cancelar'>
-            <Button buttonText="Cancelar" route="/menu" />
-        </div>
-             
-        <div className='report_footer'>
-            <Footer/>
-        </div>
-       
-    </div>
-  );
+            <div className='casePoints_contenedor-usuario'>
+                <div>
+                    <p className="casePoints_usuario">Id del telefono del usuario: {participante} </p>
+                </div>
 
+                <div>
+                    <ButtonCompo buttonText="Volver" route={"/modificar-caso"} id={`?${queryParamsBase.toString()}`} />
+                </div>
+            </div>
+
+            <div className="casePoints_contenedor-datos">
+            
+                <div className="casePoints_contenedor-tabla">
+                    <table className="casePoints_tabla">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Fecha</th>
+                                <th>Tipo</th>
+                                <th>Latitud</th>
+                                <th>Longitud</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {puntos.map((punto) => (
+                                <tr key={punto.id} onClick={() => reportController.handleRowClick(punto,setMarkerPosition)}>
+                                    <td>{punto.id}</td>
+                                    <td>{punto.fecha}</td>
+                                    <td>{punto.type}</td>
+                                    <td>{punto.latitud}</td>
+                                    <td>{punto.longitud}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+              
+                </div>
+                
+                <div className="casePoints_contenedor-mapa">
+                    <MapaHistorico  marker={markerPosition}/>
+                </div>
+ 
+            </div>
+
+            <div className="casePoints_footer">
+                <Footer />
+            </div>
+        </div>
+      );
 };
 
 export default Reports;

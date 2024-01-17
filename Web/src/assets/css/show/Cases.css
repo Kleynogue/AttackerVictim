@@ -1,19 +1,23 @@
-.case_contenedor{
+
+.case_contenedor {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     grid-gap: 25px;
-    height: 50vh;
     width: 100%;
     justify-items: center;
+    height: auto; /* Cambio de 50vh a auto */
 }
+
 
 .case_contenedor-titulo{
     width: 80%;
-    margin-top: 150px;
+    margin-top: 50px;
 }
 
-.case_contenedor-tabla{
+.case_contenedor-tabla {
     width: 75%;
+    max-height: 300px; /* Establece aquí la altura máxima deseada */
+    overflow: auto;
 }
 
 .case_tabla{
@@ -21,8 +25,15 @@
     border-collapse: collapse;
     border: 3px solid rgb(44, 44, 44);
     font-size: 18px;
-    margin-bottom: 50px;
+    
     text-align: center;
+
+    
+}
+
+.case_tabla thead th {
+    position: sticky;
+    top: 0;
 }
   
 .case_tabla th {
@@ -52,6 +63,7 @@
 
 .case_boton-agregar button{
   width: 150px;
+  margin-bottom: 150px;
 }
 
 .case_boton-cancelar button{

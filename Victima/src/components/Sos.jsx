@@ -4,12 +4,12 @@ import SosViewmodel from '../viewmodel/SosViewmodel';
 
 import styles from '../styles/Sos';
 
-const Sos = () => {
+const Sos = ({telefono}) => {
 
     const sosViewmodel = SosViewmodel();
-
+    
     return (
-        <TouchableOpacity style={styles.loginContenedorBoton} onPress={sosViewmodel.handleAlert}>
+        <TouchableOpacity style={styles.loginContenedorBoton} onPress={() => sosViewmodel.handleAlert(telefono)}>
             <Text style={styles.loginBoton}>SOS</Text>
         </TouchableOpacity>  
     );

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Form, Row} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import ButtonCompo from '../../components/Button';
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
+import Navbar from '../../components/Navbar';
 import Mapa from "../../components/Mapa";
 import MapaZona from '../../components/MapaZona';
 import InputField from '../../components/InputField';
@@ -17,6 +18,12 @@ import '../../assets/css/modify/ModifyZone.css';
 
 const ModifyZone = () => {
 
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+
+    const modifyZoneController = ModifyZoneController();
+    const coordenadaController = CoordenadaController();
+
     const [markerPosition, setMarkerPosition] = useState(null);
     const [lat, setLat] = useState(null);
     const [lng, setLng] = useState(null);
@@ -24,28 +31,32 @@ const ModifyZone = () => {
     const [puntoSeleccionado, setPuntoSeleccionado] = useState([]);
     const [zone, setZone] = useState([]);
     const [zonasSeguridad, setZonasSeguridad] = useState([]);
-    const params = useParams();
-    const modifyZoneController = ModifyZoneController();
-    const coordenadaController = CoordenadaController();
+    const [zonaId, setZonaId] = useState();
+
+    const queryParams = new URLSearchParams({
+        usuario: searchParams.get('usuario'),
+        caso: searchParams.get('caso'),
+    });
 
     useEffect(() => {
         window.scrollTo(0, 0);
+        setZonaId(searchParams.get('zona'));
 
-        modifyZoneController.handleGetPoints()
+        modifyZoneController.handleGetPoints(searchParams.get('zona'))
         .then((jsonData) => {setPuntos(jsonData);
         })
         .catch((error) => {
             console.error('Error al obtener los datos:', error);
         });
 
-        modifyZoneController.handleGetZones(params.id)
+        modifyZoneController.handleGetZones(searchParams.get('zona'))
         .then((jsonData) => {setZone(jsonData);
         })
         .catch((error) => {
             console.error('Error al obtener los datos:', error);
         });
 
-        coordenadaController.handleGetZonaID()
+        coordenadaController.handleGetZonaID(searchParams.get('zona'))
         .then((jsonData) => {setZonasSeguridad(jsonData)
             console.log(jsonData);
         })
@@ -65,6 +76,7 @@ const ModifyZone = () => {
         <div className='modifyZone_contenedor'>
             <div>    
                 <Header/>
+                <Navbar/>
             </div>
 
             <div  className='modifyZone_titulo'>
@@ -72,23 +84,24 @@ const ModifyZone = () => {
             </div>
             
             
-            <Form onSubmit={(e) => modifyZoneController.handleUpdate(e,params.id)} className="modifyZone_form">
+            <Form onSubmit={(e) => modifyZoneController.handleUpdate(e,zonaId, searchParams.get('caso'))} className="modifyZone_form">
                         
-                    <p className='modifyZone_id'>id: {params.id}</p>
+                    <p className='modifyZone_id'>id: {zonaId}</p>
 
-                    <InputField type='text'  label='Nombre' idcontrol='ZoneNombre' ph={zone.nombre}/>
+                    <InputField type='text'  label='Nombre' idcontrol='ZoneNombre' ph={zone.nombre} maxLength={20}/>
                     
                     <div className="modifyZone_contenedor-boton">
                         <Button type="submit" className="modifyZone_boton">Actualizar</Button>
                     </div>
 
                     <div>
-                        <ButtonCompo buttonText="Cancelar" route="/zonas" />
+                        <ButtonCompo buttonText="Volver" route="/zonas" id={`?${queryParams.toString()}`}/>
                     </div>
-
+                    
+                    {/* 
                     <div className="modifyZone_contenedor-boton">
-                        <Button onClick={() => modifyZoneController.handleDeleteZone(params.id)} className="modifyZone_boton">Eliminar</Button>
-                    </div>
+                        <Button onClick={() => modifyZoneController.handleDeleteZone(zonaId)} className="modifyZone_boton">Eliminar</Button>
+                    </div>*/}
 
             </Form>
            
@@ -97,7 +110,7 @@ const ModifyZone = () => {
                 <h1>PUNTOS</h1>
             </div>
 
-            <Form className='modifyZone_form-coordenada' onSubmit={(e) => modifyZoneController.handleCreatePoint(e, lat, lng, params.id)}>
+            <Form className='modifyZone_form-coordenada' onSubmit={(e) => modifyZoneController.handleCreatePoint(e, lat, lng, zonaId)}>
                     
                 <div>
                     <p className="modifyZone_coordenada">({lat} , {lng})</p>
@@ -135,7 +148,7 @@ const ModifyZone = () => {
                 </div>
                 
                 <div className="modifyZone_contenedor-mapa">
-                    <MapaZona zona={params.id} eliminar={modifyZoneController.handleDeletePoint} poligonos={zonasSeguridad} pointPosition={puntoSeleccionado} markerPosition={markerPosition} onMapClick={(e) => modifyZoneController.handleMapClick(e, setMarkerPosition)}/>
+                    <MapaZona zona={zonaId} eliminar={modifyZoneController.handleDeletePoint} poligonos={zonasSeguridad} pointPosition={puntoSeleccionado} markerPosition={markerPosition} onMapClick={(e) => modifyZoneController.handleMapClick(e, setMarkerPosition)}/>
                 </div>
                 
                 

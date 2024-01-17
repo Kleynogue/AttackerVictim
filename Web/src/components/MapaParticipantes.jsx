@@ -68,29 +68,30 @@ function MapaParticipantes({ marcadorAtacante, marcadorVictima, poligonos }) {
     initMap();
 
     setTimeout(() => {
-      // Crear y agregar polígonos
-      const poligonosArray = poligonos.map((poligono) => {
-        const coordenadas = poligono.coordinates.map((coordenada) => ({
-          lat: coordenada.lat,
-          lng: coordenada.lng,
-        }));
-
-        const polygon = new window.google.maps.Polygon({
-          paths: coordenadas,
-          strokeColor: "#FF0000",
-          strokeOpacity: 0.8,
-          strokeWeight: 3,
-          fillColor: "#FF0000",
-          fillOpacity: 0.35,
-        });
-
-        polygon.setMap(map);
-        polygon.addListener("click", showArrays);
-        return polygon;
-      });
-
-      poligonosRef.current = poligonosArray;
-    }, 0);
+        if (poligonos && Array.isArray(poligonos) && poligonos.length > 0) {
+          const poligonosArray = poligonos.map((poligono) => {
+            const coordenadas = poligono.coordinates.map((coordenada) => ({
+              lat: coordenada.lat,
+              lng: coordenada.lng,
+            }));
+      
+            const polygon = new window.google.maps.Polygon({
+              paths: coordenadas,
+              strokeColor: "#FF0000",
+              strokeOpacity: 0.8,
+              strokeWeight: 3,
+              fillColor: "#FF0000",
+              fillOpacity: 0.35,
+            });
+      
+            polygon.setMap(map);
+            polygon.addListener("click", showArrays);
+            return polygon;
+          });
+      
+          poligonosRef.current = poligonosArray;
+        }
+      }, 0);
 
     return () => {
       // Limpiar los recursos al desmontar el componente
