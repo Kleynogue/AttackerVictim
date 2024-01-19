@@ -71,6 +71,18 @@ const LoginFormModel = () => {
       
           if (response.ok) {
             const token = response.headers.get('Authorization'); // Obtener el token de acceso del encabezado
+            const responseAux = await fetch(API_URL+'cmcapp-backend-1.0/api/v1/query/usuario/1?username=' + userData.username);
+            const jsonDataAux = await responseAux.json();
+
+            if(jsonDataAux.tipo==="Administrador"){
+                const queryParams = new URLSearchParams({
+                    usuario: token,
+                });
+                navigate('/casos'+`?${queryParams.toString()}`);
+            }
+            else{
+                alert("No cuenta con los privilegios");
+            }
       /*
             // Realizar otras solicitudes a la API incluyendo el token en el encabezado de autorización
             const otraRespuesta = await fetch('http://localhost:8080/cmcapp-backend-1.0/api/v1/otra-ruta', {
@@ -85,13 +97,10 @@ const LoginFormModel = () => {
             } else {
               console.error('Error al realizar la otra solicitud:', otraRespuesta.status);
             }*/
-            const queryParams = new URLSearchParams({
-                usuario: token,
-            });
-            navigate('/casos'+`?${queryParams.toString()}`);
+            
 
           } else {
-            console.error('Error al validar el usuario:', response.status);
+            alert("Credenciales invalidas");
           }
         } catch (error) {
           console.error('Error al validar el usuario:', error);

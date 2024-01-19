@@ -23,7 +23,7 @@ const LoginFormController = () => {
             loginFormModel.handleValidarUser(userData);  
           }
           else{
-            alert("Error");
+            alert("Debe llenar todos los campos");
           }
           
     };
