@@ -16,28 +16,22 @@ const Main = ({ route }) => {
 
 
 
-    const {bluetoothId, usuario, telefono, tiempo, tipo} = route.params;
-    /*const [user, setUser] = useState(null);
-    const [tiempo, setTiempo] = useState(null);
-    const [telefono, setTelefono] = useState(null);
-    const [tipo, setTipo] = useState(null);*/
+    const {bluetoothId, usuario, telefono, tiempo, tipo,caso} = route.params;
+    const [zonas, setZonas] = useState([]);
     const mainViewModel = MainViewModel();
 
-    /*useEffect(() => {
+    useEffect(() => {
         
-        mainViewModel.handleGetData(bluetoothId)
-        .then((jsonData) => {
-            setTipo(jsonData.usuario.tipo);
-            setUser(jsonData.usuario.persona.name +" "+ jsonData.usuario.persona.lastName);
-            setTelefono(jsonData.id);
-            setTiempo(jsonData.querella.tiempoControl);
-            console.log("1) "+jsonData.usuario.tipo);
-            console.log("2) "+jsonData.usuario.persona.name +" "+ jsonData.usuario.persona.lastName);
+        mainViewModel.handleGetZonas(caso)
+        .then(async (jsonData) => {
+            setZonas(jsonData);
+            console.log(jsonData);
         })
         .catch((error) => {
             console.error('Error al obtener los datos:', error);
         });
-    }, []);*/
+
+    }, []);
 
     return(
 
@@ -55,7 +49,7 @@ const Main = ({ route }) => {
 
             <View style={styles.mainSubContenedorMapa}>
                 <View>
-                   <MapComponent telefono={telefono}/> 
+                   <MapComponent telefono={telefono} polygons={zonas}/> 
                 </View>
 
                 <View>

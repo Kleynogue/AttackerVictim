@@ -144,6 +144,13 @@ useEffect(() => {
     useEffect(() => {
         if (attackerCoordenada) {
             setAttackerMarkerPosition({ lat: parseFloat(attackerCoordenada.latitud), lng:  parseFloat(attackerCoordenada.longitud) });
+            if(zonas){
+                if(coordenadaController.verificarCoordenadaEnZonaSeguridad(parseFloat(attackerCoordenada.latitud),parseFloat(attackerCoordenada.longitud),zonas )){
+                    alert("El agresor entro en la zona de seguridad");
+                }else{
+                    console.log("NO SE ENCUENTRA EN LA ZONA");
+                }
+            }
         }
     }, [attackerCoordenada]);
 

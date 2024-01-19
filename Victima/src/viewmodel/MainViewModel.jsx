@@ -62,13 +62,24 @@ const MainViewModel = () => {
         return data;
     };
 
+    const handleGetZonas = async (id) => {
+        
+        const jsonDataString = await mainModel.fetchDataZonas(id);
+        if (jsonDataString) {
+            const jsonData = JSON.parse(jsonDataString);
+            console.log("========= ", jsonData);
+            return(jsonData);
+        }
+    };
+
     return {
         handleCreatePosition,
         handleCreateHistoricoPunto,
         handleCreateReporte,
         handleCreateMove,
         handleCreateWifi,
-        handleGetData
+        handleGetData,
+        handleGetZonas
     };
 };
 

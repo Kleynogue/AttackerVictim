@@ -6,7 +6,7 @@ const LoginViewmodel = (navigation) => {
 
     const handleLogin = async (username,password, blueTooth) => {
 
-        const userData = {
+       /* const userData = {
             username: 'mariag',
             password: 'maria123'
         };
@@ -23,7 +23,37 @@ const LoginViewmodel = (navigation) => {
                                             usuario: blueToothValido.usuario.persona.name,
                                             telefono: blueToothValido.id,
                                             tiempo: blueToothValido.querella.tiempoControl,
-                                            tipo: blueToothValido.usuario.tipo});
+                                            tipo: blueToothValido.usuario.tipo,
+                                            caso: blueToothValido.querella.id});
+            }
+            else{
+               alert("BlueTooth no valido") 
+            }
+        }
+        else{
+            alert("User no valido");
+        }*/
+
+
+        const userData = {
+            username: username,
+            password: password
+        };
+
+        const userPassword = await loginModel.handleValidarUser(userData);
+        
+        if(userPassword){
+            console.log("User valido");
+            const blueToothValido = await loginModel.handleValidarBluetooth(blueTooth);
+            console.log(blueToothValido);
+            if(blueToothValido.id && blueToothValido.usuario.username === username){
+                console.log("Si es valido");
+                navigation.navigate('Main', {bluetoothId: blueTooth, 
+                                            usuario: blueToothValido.usuario.persona.name +" " +blueToothValido.usuario.persona.lastName,
+                                            telefono: blueToothValido.id,
+                                            tiempo: blueToothValido.querella.tiempoControl,
+                                            tipo: blueToothValido.usuario.tipo,
+                                            caso: blueToothValido.querella.id});
             }
             else{
                alert("BlueTooth no valido") 
