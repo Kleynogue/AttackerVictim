@@ -29,7 +29,7 @@ public abstract class BaseDto
         }
         else
         {
-            throw new BadIdException( Long.toString( _id ) );
+            throw new BadIdException( Long.toString( id ) );
         }
     }
 }

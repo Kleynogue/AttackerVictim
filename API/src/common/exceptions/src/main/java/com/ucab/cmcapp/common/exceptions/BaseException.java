@@ -5,6 +5,7 @@ public class BaseException extends RuntimeException
 
     public BaseException( IllegalArgumentException e )
     {
+        super(e);
     }
 
     public BaseException( Exception e, String str )

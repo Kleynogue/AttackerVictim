@@ -2,7 +2,6 @@ package com.ucab.cmcapp.implementation.control;
 
 import com.ucab.cmcapp.common.entities.Usuario;
 import com.ucab.cmcapp.common.exceptions.AuthenticationException;
-import com.ucab.cmcapp.common.exceptions.FindException;
 import com.ucab.cmcapp.common.exceptions.JsonValidationException;
 import com.ucab.cmcapp.common.exceptions.NotFoundException;
 import com.ucab.cmcapp.common.util.JWT;

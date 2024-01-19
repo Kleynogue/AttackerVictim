@@ -1,6 +1,7 @@
 package com.ucab.cmcapp.implementation.middlewares;
 
 import com.ucab.cmcapp.common.exceptions.AuthorizationException;
+import com.ucab.cmcapp.common.exceptions.JWTVerifyException;
 import com.ucab.cmcapp.common.util.JWT;
 import com.ucab.cmcapp.logic.dtos.UsuarioDto;
 import org.slf4j.Logger;
@@ -54,6 +55,11 @@ public class VerifyToken implements ContainerRequestFilter {
             throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED)
                        .entity("Validation error: " + e.getMessage())
                        .build());
+        }catch (JWTVerifyException e){
+            _logger.error("Validation error: {}", e.getMessage());
+            throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Validation error: " + e.getMessage())
+                    .build());
         }catch (Exception e){
             _logger.error("Validation error: {}", e.getMessage());
             throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR)

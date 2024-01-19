@@ -3,7 +3,6 @@ package com.ucab.cmcapp.persistence.dao;
 import com.ucab.cmcapp.common.EntityFactory;
 import com.ucab.cmcapp.common.entities.Usuario;
 import com.ucab.cmcapp.common.exceptions.CupraException;
-import com.ucab.cmcapp.common.exceptions.FindException;
 import com.ucab.cmcapp.common.exceptions.NotFoundException;
 import com.ucab.cmcapp.persistence.DBHandler;
 import org.slf4j.Logger;

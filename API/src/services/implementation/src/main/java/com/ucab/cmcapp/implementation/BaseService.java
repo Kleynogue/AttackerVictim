@@ -66,7 +66,7 @@ public class BaseService extends Application
 
         //Middlewares de la API
         resources.add(RequestLogger.class);
-        resources.add(VerifyToken.class);
+        //resources.add(VerifyToken.class);
         resources.add(Cors.class);
 
         return resources;
@@ -102,27 +102,6 @@ public class BaseService extends Application
         throw new WebApplicationException( Response.status( status ).entity( e ).build() );
     }
 
-    /**
-     * Method for JWT validation
-     * @param credential JWT provided by the user
-     */
-    public UsuarioDto validateCredentials(String credential )
-    {
-        UsuarioDto user;
-        try
-        {
-            user =  JWT.verifyToken( credential);
-            // region Instrumentation DEBUG
-            _logger.debug("Authenticating User: {}", user.getUsername());
-            // endregion
-        }
-        catch ( JWTVerifyException e )
-        {
-            _logger.error( e.getMessage(), e );
-           throw e;
-        }
-        return user;
-    }
 
     protected void validateFields(Object obj) throws IllegalAccessException, JsonValidationException {
         for (Field field : obj.getClass().getDeclaredFields()) {
