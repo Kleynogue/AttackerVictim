@@ -21,8 +21,8 @@ const LoginForm = () => {
 
         <div>
             <Form onSubmit={handleSubmit} className="loginForm_form">
-                <InputField type='text'  label='User' idcontrol='user'/>
-                <InputField type='password'  label='Password' idcontrol='password'/>
+                <InputField type='text'  label='User' idcontrol='user' maxLength={20}/>
+                <InputField type='password'  label='Password' idcontrol='password' maxLength={20}/>
                     
                 <div className="loginForm_contenedor-boton">
                     <Button type="submit" className="loginForm_boton">Sign in</Button>

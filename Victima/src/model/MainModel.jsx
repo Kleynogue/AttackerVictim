@@ -137,13 +137,79 @@ const CreateUserModel = () => {
 
     };
 
+    const fetchDataZonas = async (id) => {
+        try {
+            const response = await fetch(API_URL+'cmcapp-backend-1.0/api/v1/query/zona-seguridad/2?querella=' + id);
+            const json = await response.json();
+            const jsonData2 = Object.values(json);
+
+            const idsPuntosGeografico = obtenerIDsPuntosGeograficos(jsonData2);
+            //console.log(idsPuntosGeografico);
+
+            const resultado = obtenerCoordenadas(idsPuntosGeografico);
+
+            return resultado
+            .then(jsonFinal => {
+                //console.log(JSON.stringify(jsonFinal));
+                return JSON.stringify(jsonFinal);
+            })
+            .catch(error => {
+                //console.error('Error al obtener las coordenadas:', error);
+                throw error; // O maneja el error adecuadamente aquí
+            });                
+        } catch (error) {
+            console.error('Error al obtener los datos:', error);
+            return null;
+        }
+    };
+
+    function obtenerIDsPuntosGeograficos(json) {
+        const idsPrincipales = [];
+        for (let i = 0; i < json.length; i++) {
+            idsPrincipales.push(json[i].id);
+        }
+        return idsPrincipales;
+    }
+
+    async function obtenerCoordenadas(idsPuntosGeograficos) {
+        const resultados = [];
+      
+        for (const id of idsPuntosGeograficos) {
+          const url = API_URL + 'cmcapp-backend-1.0/api/v1/query/zona-punto?zona=' + id;
+          //console.log("-------->  " + id);
+      
+          try {
+            const response = await fetch(url);
+            const data = await response.json();
+            //console.log(data);
+      
+            const coordenadas = [];
+            for (let i = 0; i < data.length; i++) {
+                if(data[i].punto.status === "Activo"){
+                    coordenadas.push({ latitude: data[i].punto.latitude, longitude: data[i].punto.longitude });
+                }
+            }
+      
+            if (coordenadas.length >= 3) {
+              const resultado = { coordinates: coordenadas };
+              resultados.push(resultado);
+            }
+          } catch (error) {
+            console.error(`Error al obtener las coordenadas para el id ${id}:`, error);
+          }
+        }
+      
+        return resultados;
+    }
+
     return {
         handleCreateSQLPunto,
         handleCreateSQLPosicion,
         handleCreateSQLMovimiento,
         handleCreateSQLWifi,
         handleValidarBluetooth,
-        handleCreateSQLReporte
+        handleCreateSQLReporte,
+        fetchDataZonas
     };
 };
 

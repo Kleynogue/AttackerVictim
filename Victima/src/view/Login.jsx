@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { View, TextInput, Button, TouchableOpacity, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, TextInput, TouchableOpacity, Text,} from 'react-native';
+
 import LoginViewModel from '../viewmodel/LoginViewmodel';
 import styles from '../styles/Login';
 
@@ -35,7 +36,6 @@ const Login = ({navigation}) => {
                 <TextInput
                     style={styles.loginInput}
                     placeholder="BlueTooth"
-                    secureTextEntry={true}
                     value={blueTooth}
                     onChangeText={setBlueTooth}
                     placeholderTextColor="#FFF"

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import MainViewModel from '../viewmodel/MainViewModel';
 
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, Polygon } from 'react-native-maps';
 import { StyleSheet, View, Text } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import { PermissionsAndroid } from 'react-native';
 
-const MapComponent = ({telefono}) => {
+const MapComponent = ({telefono,  polygons}) => {
   const [currentPosition, setCurrentPosition] = useState(null);
   const [lastUpdateTime, setLastUpdateTime] = useState(null);
+
   const mainViewModel = MainViewModel();
   useEffect(() => {
 
@@ -87,7 +88,17 @@ const MapComponent = ({telefono}) => {
             description={`Última actualización: ${lastUpdateTime}`}
           />
         )}
-      </MapView>
+         {polygons && polygons.length > 0 && polygons.map((polygon, index) => (
+            polygon && (
+                <Polygon
+                key={index}
+                coordinates={polygon.coordinates}
+                fillColor="rgba(255, 0, 0, 0.2)"
+                strokeColor="red"
+                />
+            )
+            ))}
+        </MapView>
     </View>
   );
 };
