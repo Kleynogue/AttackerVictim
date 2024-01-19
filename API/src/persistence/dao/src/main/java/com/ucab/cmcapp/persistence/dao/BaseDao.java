@@ -1,6 +1,5 @@
 package com.ucab.cmcapp.persistence.dao;
 
-import com.ucab.cmcapp.common.exceptions.DeleteException;
 import com.ucab.cmcapp.common.exceptions.FindAllException;
 import com.ucab.cmcapp.common.exceptions.FindException;
 import com.ucab.cmcapp.common.exceptions.InsertException;
@@ -114,31 +113,6 @@ public abstract class BaseDao<T>
             //implementar logger
             throw new UpdateException( e, entity.toString() );
         }
-        //implementar logger
-        return entity;
-    }
-
-    /**
-     * Name:                  delete
-     * Description:           method for deleting a record from the DB
-     *
-     * @param entity entity
-     */
-    public T delete( T entity )
-    {
-        setEntityManager( _dbHandler.getSession() );
-        //implementar logger
-        try
-        {
-            getEntityManager().remove( entity );
-            getEntityManager().flush();
-        }
-        catch ( Exception e )
-        {
-            //implementar logger
-            throw new DeleteException( e.getMessage() + "Entity: " + entity.toString() );
-        }
-
         //implementar logger
         return entity;
     }

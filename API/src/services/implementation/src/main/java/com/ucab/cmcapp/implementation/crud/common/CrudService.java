@@ -1,6 +1,5 @@
 package com.ucab.cmcapp.implementation.crud.common;
 
-import com.ucab.cmcapp.common.exceptions.FindException;
 import com.ucab.cmcapp.common.exceptions.JsonValidationException;
 import com.ucab.cmcapp.common.exceptions.NotFoundException;
 import com.ucab.cmcapp.implementation.BaseService;
@@ -16,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.lang.reflect.Field;
 import java.util.List;
 
 public abstract class CrudService<T, K> extends BaseService {
