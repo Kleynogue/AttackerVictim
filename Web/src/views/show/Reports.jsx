@@ -35,18 +35,30 @@ const Reports = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-
+      
         setCaso(searchParams.get('caso'));
         setParticipante(searchParams.get('participante'));
-
-        reportController.handleGetPoints(searchParams.get('participante'))
-        .then((jsonData) => {setPuntos(jsonData);
-        })
-        .catch((error) => {
-            console.error('Error al obtener los datos:', error);
-        });
-
-    }, []);
+      
+        const fetchData = () => {
+          reportController
+            .handleGetPoints(searchParams.get('participante'))
+            .then((jsonData) => {
+              setPuntos(jsonData);
+            })
+            .catch((error) => {
+              console.error('Error al obtener los datos:', error);
+            });
+        };
+      
+        // Ejecutar fetchData inmediatamente
+        fetchData();
+      
+        // Establecer intervalo para ejecutar fetchData cada 10 segundos
+        const interval = setInterval(fetchData, 10000);
+      
+        // Limpiar intervalo al desmontar el componente
+        return () => clearInterval(interval);
+      }, []);
 
 
     return (
